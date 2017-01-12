@@ -76,7 +76,6 @@ period          ['.']
     /* junk */
 .                               DO_RETURN(JUNK_TOKEN);
 
-
 %%
 
 // This function allows us to do extra processing on each token

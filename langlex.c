@@ -1003,7 +1003,7 @@ DO_RETURN(JUNK_TOKEN);
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 80 "lang.l"
+#line 79 "lang.l"
 ECHO;
 	YY_BREAK
 #line 1010 "langlex.c"
@@ -1971,7 +1971,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 80 "lang.l"
+#line 79 "lang.l"
 
 
 
