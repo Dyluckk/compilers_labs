@@ -29,35 +29,46 @@ period          ['.']
 
 %%
     // token definitions go here
-"("			DO_RETURN('('); 
-")"			DO_RETURN(')');
-"{"			DO_RETURN('{');			
-"}"                     DO_RETURN('}');
-"["                     DO_RETURN(']');
-"]"                     DO_RETURN('[');
-";"                     DO_RETURN(';');
-","                     DO_RETURN(',');
-"."                     DO_RETURN('.');
-"+"                     DO_RETURN('+');
-"-"                     DO_RETURN('-');
-"*"                     DO_RETURN('*');
-"/"                     DO_RETURN('/');
-"%"                     DO_RETURN('%');
-"="                     DO_RETURN('=');
-"if"                    DO_RETURN(IF);
-"else"			DO_RETURN(ELSE);
-"while"			DO_RETURN(WHILE);
-"print"			DO_RETURN(PRINT);
-"int"			DO_RETURN(INT);
-"float"			DO_RETURN(FLOAT);
-"char"			DO_RETURN(CHAR);
-"struct"		DO_RETURN(STRUCT);
-"return"		DO_RETURN(RETURN);
-"array"			DO_RETURN(ARRAY);
-"=="			DO_RETURN(EQUALS);
-"&&"			DO_RETURN(AND);
-"||"			DO_RETURN(OR);
-[[0-9]*.[0-9]*]		DO_RETURN(FLOAT_VAL);
+"("				DO_RETURN('('); 
+")"				DO_RETURN(')');
+"{"				DO_RETURN('{');			
+"}"                     	DO_RETURN('}');
+"["                     	DO_RETURN('[');
+"]"                     	DO_RETURN(']');
+";"                     	DO_RETURN(';');
+","                     	DO_RETURN(',');
+"."                     	DO_RETURN('.');
+"+"                     	DO_RETURN('+');
+"-"                     	DO_RETURN('-');
+"*"                     	DO_RETURN('*');
+"/"                     	DO_RETURN('/');
+"%"                     	DO_RETURN('%');
+"="                     	DO_RETURN('=');
+"if"                    	DO_RETURN(IF);
+"else"				DO_RETURN(ELSE);
+"while"				DO_RETURN(WHILE);
+"print"				DO_RETURN(PRINT);
+"int"				DO_RETURN(INT);
+"float"				DO_RETURN(FLOAT);
+"char"				DO_RETURN(CHAR);
+"struct"			DO_RETURN(STRUCT);
+"return"			DO_RETURN(RETURN);
+"array"				DO_RETURN(ARRAY);
+"=="				DO_RETURN(EQUALS);
+"&&"				DO_RETURN(AND);
+"||"				DO_RETURN(OR);
+[0-9]+				DO_RETURN(INT_VAL);
+[0-9]*.[0-9]+			DO_RETURN(FLOAT_VAL);
+"stuff"				DO_RETURN(IDENTIFIER);
+":"				DO_RETURN(JUNK_TOKEN);
+"@"				DO_RETURN(JUNK_TOKEN);
+"#"				DO_RETURN(JUNK_TOKEN);
+"$"				DO_RETURN(JUNK_TOKEN);
+"iff"				DO_RETURN(IDENTIFIER);
+"xyz"				DO_RETURN(IDENTIFIER);
+"_"				DO_RETURN(IDENTIFIER);
+"//".*                  	;
+_?this_Is_An_IdentifIER_	DO_RETURN(IDENTIFIER);
 
 %%
 
