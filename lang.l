@@ -28,9 +28,36 @@ int Return(int val);
 period          ['.']
 
 %%
-
-    // token definitions go here. "if" is an example.
-"if"                        DO_RETURN(IF);
+    // token definitions go here
+"("			DO_RETURN('('); 
+")"			DO_RETURN(')');
+"{"			DO_RETURN('{');			
+"}"                     DO_RETURN('}');
+"["                     DO_RETURN(']');
+"]"                     DO_RETURN('[');
+";"                     DO_RETURN(';');
+","                     DO_RETURN(',');
+"."                     DO_RETURN('.');
+"+"                     DO_RETURN('+');
+"-"                     DO_RETURN('-');
+"*"                     DO_RETURN('*');
+"/"                     DO_RETURN('/');
+"%"                     DO_RETURN('%');
+"="                     DO_RETURN('=');
+"if"                    DO_RETURN(IF);
+"else"			DO_RETURN(ELSE);
+"while"			DO_RETURN(WHILE);
+"print"			DO_RETURN(PRINT);
+"int"			DO_RETURN(INT);
+"float"			DO_RETURN(FLOAT);
+"char"			DO_RETURN(CHAR);
+"struct"		DO_RETURN(STRUCT);
+"return"		DO_RETURN(RETURN);
+"array"			DO_RETURN(ARRAY);
+"=="			DO_RETURN(EQUALS);
+"&&"			DO_RETURN(AND);
+"||"			DO_RETURN(OR);
+[[0-9]*.[0-9]*]		DO_RETURN(FLOAT_VAL);
 
 %%
 
