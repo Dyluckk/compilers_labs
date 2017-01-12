@@ -29,6 +29,8 @@ period          ['.']
 
 %%
     // token definitions go here
+
+    /* punctuation */
 "("				DO_RETURN('('); 
 ")"				DO_RETURN(')');
 "{"				DO_RETURN('{');			
@@ -44,6 +46,8 @@ period          ['.']
 "/"                     	DO_RETURN('/');
 "%"                     	DO_RETURN('%');
 "="                     	DO_RETURN('=');
+
+    /* keywords */
 "if"                    	DO_RETURN(IF);
 "else"				DO_RETURN(ELSE);
 "while"				DO_RETURN(WHILE);
@@ -54,18 +58,24 @@ period          ['.']
 "struct"			DO_RETURN(STRUCT);
 "return"			DO_RETURN(RETURN);
 "array"				DO_RETURN(ARRAY);
+
+    /* operators */
 "=="				DO_RETURN(EQUALS);
 "&&"				DO_RETURN(AND);
-"||"				DO_RETURN(OR);
+"||"                            DO_RETURN(OR);
+
+    /* others */
 [0-9]*				DO_RETURN(INT_VAL);
-[0-9]*.[0-9]+			DO_RETURN(FLOAT_VAL);
-":"				DO_RETURN(JUNK_TOKEN);
-"@"				DO_RETURN(JUNK_TOKEN);
-"#"				DO_RETURN(JUNK_TOKEN);
-"$"				DO_RETURN(JUNK_TOKEN);
+[0-9]*"."[0-9]+			DO_RETURN(FLOAT_VAL);
+[_a-zA-Z][_a-zA-Z0-9]*          DO_RETURN(IDENTIFIER);
+
+    /* comments and white space*/
 "//".*$                  	{};
-[_a-zA-Z][_a-zA-Z0-9]* 		DO_RETURN(IDENTIFIER);
 [\r\t\n ]*	 		{};
+
+    /* junk */
+.                               DO_RETURN(JUNK_TOKEN);
+
 
 %%
 
