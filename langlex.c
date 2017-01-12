@@ -726,10 +726,9 @@ YY_DECL
     
 #line 30 "lang.l"
 
-    // token definitions go here
 
     /* punctuation */
-#line 733 "langlex.c"
+#line 732 "langlex.c"
 
 	if ( !(yy_init) )
 		{
@@ -824,160 +823,160 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 34 "lang.l"
+#line 33 "lang.l"
 DO_RETURN('('); 
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 35 "lang.l"
+#line 34 "lang.l"
 DO_RETURN(')');
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 36 "lang.l"
+#line 35 "lang.l"
 DO_RETURN('{');			
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 37 "lang.l"
+#line 36 "lang.l"
 DO_RETURN('}');
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 38 "lang.l"
+#line 37 "lang.l"
 DO_RETURN('[');
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 39 "lang.l"
+#line 38 "lang.l"
 DO_RETURN(']');
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 40 "lang.l"
+#line 39 "lang.l"
 DO_RETURN(';');
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 41 "lang.l"
+#line 40 "lang.l"
 DO_RETURN(',');
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 42 "lang.l"
+#line 41 "lang.l"
 DO_RETURN('.');
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 43 "lang.l"
+#line 42 "lang.l"
 DO_RETURN('+');
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 44 "lang.l"
+#line 43 "lang.l"
 DO_RETURN('-');
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 45 "lang.l"
+#line 44 "lang.l"
 DO_RETURN('*');
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 46 "lang.l"
+#line 45 "lang.l"
 DO_RETURN('/');
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 47 "lang.l"
+#line 46 "lang.l"
 DO_RETURN('%');
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 48 "lang.l"
+#line 47 "lang.l"
 DO_RETURN('=');
 	YY_BREAK
 /* keywords */
 case 16:
 YY_RULE_SETUP
-#line 51 "lang.l"
+#line 50 "lang.l"
 DO_RETURN(IF);
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 52 "lang.l"
+#line 51 "lang.l"
 DO_RETURN(ELSE);
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 53 "lang.l"
+#line 52 "lang.l"
 DO_RETURN(WHILE);
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 54 "lang.l"
+#line 53 "lang.l"
 DO_RETURN(PRINT);
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 55 "lang.l"
+#line 54 "lang.l"
 DO_RETURN(INT);
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 56 "lang.l"
+#line 55 "lang.l"
 DO_RETURN(FLOAT);
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 57 "lang.l"
+#line 56 "lang.l"
 DO_RETURN(CHAR);
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 58 "lang.l"
+#line 57 "lang.l"
 DO_RETURN(STRUCT);
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 59 "lang.l"
+#line 58 "lang.l"
 DO_RETURN(RETURN);
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 60 "lang.l"
+#line 59 "lang.l"
 DO_RETURN(ARRAY);
 	YY_BREAK
 /* operators */
 case 26:
 YY_RULE_SETUP
-#line 63 "lang.l"
+#line 62 "lang.l"
 DO_RETURN(EQUALS);
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 64 "lang.l"
+#line 63 "lang.l"
 DO_RETURN(AND);
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 65 "lang.l"
+#line 64 "lang.l"
 DO_RETURN(OR);
 	YY_BREAK
 /* others */
 case 29:
 YY_RULE_SETUP
-#line 68 "lang.l"
+#line 67 "lang.l"
 DO_RETURN(INT_VAL);
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 69 "lang.l"
+#line 68 "lang.l"
 DO_RETURN(FLOAT_VAL);
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 70 "lang.l"
+#line 69 "lang.l"
 DO_RETURN(IDENTIFIER);
 	YY_BREAK
 /* comments and white space*/
@@ -986,27 +985,27 @@ case 32:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 73 "lang.l"
+#line 72 "lang.l"
 {};
 	YY_BREAK
 case 33:
 /* rule 33 can match eol */
 YY_RULE_SETUP
-#line 74 "lang.l"
+#line 73 "lang.l"
 {};
 	YY_BREAK
 /* junk */
 case 34:
 YY_RULE_SETUP
-#line 77 "lang.l"
+#line 76 "lang.l"
 DO_RETURN(JUNK_TOKEN);
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 79 "lang.l"
+#line 78 "lang.l"
 ECHO;
 	YY_BREAK
-#line 1010 "langlex.c"
+#line 1009 "langlex.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1971,7 +1970,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 79 "lang.l"
+#line 78 "lang.l"
 
 
 

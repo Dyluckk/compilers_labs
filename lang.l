@@ -28,7 +28,6 @@ int Return(int val);
 period          ['.']
 
 %%
-    // token definitions go here
 
     /* punctuation */
 "("				DO_RETURN('('); 
