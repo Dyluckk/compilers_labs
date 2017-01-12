@@ -57,18 +57,15 @@ period          ['.']
 "=="				DO_RETURN(EQUALS);
 "&&"				DO_RETURN(AND);
 "||"				DO_RETURN(OR);
-[0-9]+				DO_RETURN(INT_VAL);
+[0-9]*				DO_RETURN(INT_VAL);
 [0-9]*.[0-9]+			DO_RETURN(FLOAT_VAL);
-"stuff"				DO_RETURN(IDENTIFIER);
 ":"				DO_RETURN(JUNK_TOKEN);
 "@"				DO_RETURN(JUNK_TOKEN);
 "#"				DO_RETURN(JUNK_TOKEN);
 "$"				DO_RETURN(JUNK_TOKEN);
-"iff"				DO_RETURN(IDENTIFIER);
-"xyz"				DO_RETURN(IDENTIFIER);
-"_"				DO_RETURN(IDENTIFIER);
-"//".*                  	;
-_?this_Is_An_IdentifIER_	DO_RETURN(IDENTIFIER);
+"//".*$                  	{};
+[_a-zA-Z][_a-zA-Z0-9]* 		DO_RETURN(IDENTIFIER);
+[\r\t\n ]*	 		{};
 
 %%
 
