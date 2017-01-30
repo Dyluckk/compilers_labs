@@ -4,7 +4,7 @@
 // Main routine for lang compiler.
 // This version only runs the lexer
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
 // Date: Dec. 15, 2016
@@ -19,9 +19,9 @@
 #include "tokens.h"
 
 // Global symbol table definition
-// if we had a cSymbolTable.cpp, this definition could go there
 cSymbolTable g_SymbolTable;
 
+yylval_t yylval;
 // If we had a cSymbol.cpp, this definition would go there
 long long cSymbol::nextId = 0;
 

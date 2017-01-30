@@ -10,7 +10,11 @@
 // Date: Nov. 23, 2015
 //
 
+#include <iostream>
 #include "tokens.h"
+#include "cSymbolTable.h"
+#include "cSymbol.h"
+#include "lex.h"
 
 #define DO_RETURN(a) return (a)
 //#define DO_RETURN(a) return Return(a)
@@ -32,8 +36,6 @@ period          ['.']
     /* punctuation */
 "("				DO_RETURN('('); 
 ")"				DO_RETURN(')');
-"{"				DO_RETURN('{');			
-"}"                     	DO_RETURN('}');
 "["                     	DO_RETURN('[');
 "]"                     	DO_RETURN(']');
 ";"                     	DO_RETURN(';');
@@ -66,17 +68,21 @@ period          ['.']
     /* others */
 [0-9]*				DO_RETURN(INT_VAL);
 [0-9]*"."[0-9]+			DO_RETURN(FLOAT_VAL);
-[_a-zA-Z][_a-zA-Z0-9]*          DO_RETURN(IDENTIFIER);
+[_a-zA-Z][_a-zA-Z0-9]*          {
+                                    yylval.symbol = g_SymbolTable.Insert(yytext);
+                                    return IDENTIFIER;
+                                }
 
     /* symbol table scope */
-"{"                         {
-                                g_SymbolTable.IncreaseScope();
-                                return yytext[0];
-                            }
-"}"                         {
-                                g_SymbolTable.DecreaseScope();
-                                return yytext[0];
-                            }
+"{"                             {
+                                    g_SymbolTable.IncreaseScope();
+                                    return yytext[0];
+                                }
+
+"}"                             {
+                                    g_SymbolTable.DecreaseScope();
+                                    return yytext[0];
+                                }      
 
 
     /* comments and white space*/
