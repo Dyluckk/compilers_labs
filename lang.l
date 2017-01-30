@@ -68,6 +68,17 @@ period          ['.']
 [0-9]*"."[0-9]+			DO_RETURN(FLOAT_VAL);
 [_a-zA-Z][_a-zA-Z0-9]*          DO_RETURN(IDENTIFIER);
 
+    /* symbol table scope */
+"{"                         {
+                                g_SymbolTable.IncreaseScope();
+                                return yytext[0];
+                            }
+"}"                         {
+                                g_SymbolTable.DecreaseScope();
+                                return yytext[0];
+                            }
+
+
     /* comments and white space*/
 "//".*$                  	{};
 [\r\t\n ]*	 		{};

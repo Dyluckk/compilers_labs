@@ -22,6 +22,7 @@ typedef union
     cSymbol *symbol;
 } yylval_t;
 
+extern SymbolTable g_SymbolTable;
 extern yylval_t yylval;
 extern char *yytext;        // text of the current token
 extern int yylineno;        // line number of current token
