@@ -9,14 +9,16 @@
 //
 // Date: Dec. 15, 2016
 //
-#include <stdio.h>
-#include <stdlib.h>
-#include <iostream>
-#include <fstream>
+
 #include "cSymbol.h"
 #include "cSymbolTable.h"
 #include "lex.h"
 #include "tokens.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include <fstream>
 
 // Global symbol table definition
 cSymbolTable g_SymbolTable;

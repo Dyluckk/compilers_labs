@@ -1,10 +1,11 @@
-#pragma once
 //********************************************************
 // cSymbol.h - Define a class for symbols
 //
 // Author: Philip Howard
 // Date:   Dec. 15, 2016
 //
+#pragma once
+
 #include <string>
 
 using std::string;
@@ -13,16 +14,14 @@ class cSymbol
 {
     public:
         // Construct a symbol given its name
-        cSymbol(string name)
-        {
+        cSymbol(string name) {
             m_id = ++nextId;
             m_name = name;
         }
 
         // Return a string representation of a symbol
         // Return value is an XML node
-        string ToString()
-        {
+        string ToString() {
             string result("<sym id=\"");
             result += std::to_string(m_id);
             result += "\" name=\"" + m_name + "\" />";

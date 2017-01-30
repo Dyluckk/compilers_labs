@@ -4,7 +4,7 @@
 //
 // Scanner definition file for CST 320 project
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
 // Date: Nov. 23, 2015
@@ -34,7 +34,7 @@ period          ['.']
 %%
 
     /* punctuation */
-"("				DO_RETURN('('); 
+"("				DO_RETURN('(');
 ")"				DO_RETURN(')');
 "["                     	DO_RETURN('[');
 "]"                     	DO_RETURN(']');
@@ -68,6 +68,8 @@ period          ['.']
     /* others */
 [0-9]*				DO_RETURN(INT_VAL);
 [0-9]*"."[0-9]+			DO_RETURN(FLOAT_VAL);
+
+    /* identifiers */
 [_a-zA-Z][_a-zA-Z0-9]*          {
                                     yylval.symbol = g_SymbolTable.Insert(yytext);
                                     return IDENTIFIER;
@@ -82,7 +84,7 @@ period          ['.']
 "}"                             {
                                     g_SymbolTable.DecreaseScope();
                                     return yytext[0];
-                                }      
+                                }
 
 
     /* comments and white space*/
@@ -100,4 +102,3 @@ int Return(int val)
     printf("Scanned '%s': %d\n", yytext, val);
     return val;
 }
-

@@ -1,18 +1,20 @@
-#pragma once
-
 /*
 // cSymbolMap.h
 // Author: Zachary Wentworth
 // Email: zachary.wentworth@oit.edu
-// Date: 1.30.17 
+// Date: 1.30.17
 */
 
-#include <iostream>
+#pragma once
+
 #include "cSymbol.h"
 
-using namespace std;
+#include <iostream>
 #include <map>
 #include <string>
+
+using std::map;
+using std::string;
 
 class cSymbolMap
 {

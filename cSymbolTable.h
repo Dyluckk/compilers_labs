@@ -1,20 +1,23 @@
-#pragma once
-
-#include <iostream>
-#include "cSymbol.h"
-#include "cSymbolMap.h"
-
-using namespace std;
-#include <map>
-#include <list>
-#include <string>
-
 /*
 // cSymbolTable.h
 // Author: Zachary Wentworth
 // Email: zachary.wentworth@oit.edu
 // Date: 1.30.17
 */
+
+#pragma once
+
+#include "cSymbol.h"
+#include "cSymbolMap.h"
+
+#include <iostream>
+#include <map>
+#include <list>
+#include <string>
+
+using std::map;
+using std::list;
+using std::string;
 
 class cSymbolTable
 {

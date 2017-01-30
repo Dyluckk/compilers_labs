@@ -1,5 +1,3 @@
-#include "cSymbolMap.h"
-
 /*
 // cSymbolMap.cpp
 // Author: Zachary Wentworth
@@ -7,21 +5,22 @@
 // Date: 1.30.17
 */
 
+#include "cSymbolMap.h"
+
 //ctor
-cSymbolMap::cSymbolMap(){
+cSymbolMap::cSymbolMap() {
 }
 
 //copy ctor
-cSymbolMap::cSymbolMap(const map<string, cSymbol*> & copy){
+cSymbolMap::cSymbolMap(const map<string, cSymbol*> & copy) {
     mapSymbol = copy;
 }
 
 //function used to look up symbols in within the table
-cSymbol * cSymbolMap::lookup(string symbol)
-{
+cSymbol * cSymbolMap::lookup(string symbol) {
     //attempt to find the symbol in table
     map<string, cSymbol*>::iterator it = mapSymbol.find(symbol);
-    
+
     // if not found, return nullptr
     if(it == mapSymbol.end()) {
         return nullptr;
@@ -33,15 +32,13 @@ cSymbol * cSymbolMap::lookup(string symbol)
 }
 
 //function used to insert symbols into the table
-cSymbol * cSymbolMap::Insert(string symbol)
-{
+cSymbol * cSymbolMap::Insert(string symbol) {
     cSymbol * insert = new cSymbol(symbol);
-    
+
     //make a pair out of the string and cSymbol location
     std::pair<string,cSymbol*> mapSymbols (symbol, insert);
-        
+
     //insert the pair
     mapSymbol.insert(mapSymbols);
     return insert;
 }
-       

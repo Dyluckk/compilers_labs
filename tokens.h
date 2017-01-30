@@ -1,15 +1,14 @@
-#pragma once
-
 //**************************************
 // tokens.h
 //
 // Defines the values for the tokens returned by yylex
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
 // Date: Dec 30, 2015
 //
+#pragma once
 
 #define ARRAY 1000
 #define IF 1001
@@ -28,4 +27,3 @@
 #define AND 1016
 #define OR 1017
 #define JUNK_TOKEN 2000
-
