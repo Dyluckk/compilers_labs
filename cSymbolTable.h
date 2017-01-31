@@ -11,11 +11,11 @@
 #include "cSymbolMap.h"
 
 #include <iostream>
-#include <map>
+#include <unordered_map>
 #include <list>
 #include <string>
 
-using std::map;
+using std::unordered_map;
 using std::list;
 using std::string;
 

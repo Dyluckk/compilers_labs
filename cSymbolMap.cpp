@@ -12,14 +12,14 @@ cSymbolMap::cSymbolMap() {
 }
 
 //copy ctor
-cSymbolMap::cSymbolMap(const map<string, cSymbol*> & copy) {
+cSymbolMap::cSymbolMap(const unordered_map<string, cSymbol*> & copy) {
     mapSymbol = copy;
 }
 
 //function used to look up symbols in within the table
 cSymbol * cSymbolMap::lookup(string symbol) {
     //attempt to find the symbol in table
-    map<string, cSymbol*>::iterator it = mapSymbol.find(symbol);
+    unordered_map<string, cSymbol*>::iterator it = mapSymbol.find(symbol);
 
     // if not found, return nullptr
     if(it == mapSymbol.end()) {
