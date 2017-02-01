@@ -1,3 +1,14 @@
+Lab 3 Feedback
+
+86
+
+-1 DecreaseScope should make sure the list isn't empty prior to the pop()
+
+-13 You did not implement the global lookup as required by the write-up. You also do not have a local lookup visible in cSymbolTable as required by the write-up.
+
+
+****************************************
+
 Lab1 Feedback
 
 95
