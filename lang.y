@@ -31,6 +31,7 @@
     cSymbolTable::symbolTable_t*  sym_table;
     cDeclNode*      decl_node;
     cDeclsNode*     decls_node;
+    cVarExprNode*   var_expr;
     }
 
 %{
@@ -74,14 +75,14 @@
 %type <ast_node> paramspec
 %type <stmts_node> stmts
 %type <stmt_node> stmt
-%type <ast_node> lval
+%type <var_expr> lval
 %type <ast_node> params
 %type <ast_node> param
 %type <expr_node> expr
 %type <expr_node> addit
 %type <expr_node> term
 %type <expr_node> fact
-%type <ast_node> varref
+%type <var_expr> varref
 %type <symbol> varpart
 
 %%
@@ -145,18 +146,18 @@ stmts:      stmts stmt          {
         |   stmt                { $$ = new cStmtsNode($1); }
 
 stmt:       IF '(' expr ')' stmts ENDIF ';'
-                                {}
+                                { $$ = new cIfNode($3, $5); }
         |   IF '(' expr ')' stmts ELSE stmts ENDIF ';'
-                                {}
+                                { $$ = new cIfNode($3, $5, $7); }
         |   WHILE '(' expr ')' stmt
-                                {}
+                                { $$ = new cWhileNode($3, $5);}
         |   PRINT '(' expr ')' ';'
                                 { $$ = new cPrintNode($3); }
-        |   lval '=' expr ';'   {}
+        |   lval '=' expr ';'   { $$ = new cAssignNode($1, $3); }
         |   lval '=' func_call ';'   {}
         |   func_call ';'       {}
         |   block               {}
-        |   RETURN expr ';'     {}
+        |   RETURN expr ';'     { $$ = new cReturnNode($2); }
         |   error ';'           {}
 
 func_call:  IDENTIFIER '(' params ')' {}
