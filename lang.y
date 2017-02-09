@@ -82,7 +82,7 @@
 %type <expr_node> term
 %type <expr_node> fact
 %type <ast_node> varref
-%type <ast_node> varpart
+%type <symbol> varpart
 
 %%
 
@@ -104,15 +104,18 @@ close:  '}'                     { g_SymbolTable.DecreaseScope();
                                   $$ = nullptr; // probably want to change this
                                 }
 
-decls:      decls decl          {}
-        |   decl                {}
+decls:      decls decl          {
+                                  $$ = $1;
+                                  $$->Insert($2);
+                                }
+        |   decl                { $$ = new cDeclsNode($1); }
 decl:       var_decl ';'        { $$ = $1; }
         |   struct_decl ';'     {}
         |   array_decl ';'      {}
         |   func_decl           {}
         |   error ';'           {}
 
-var_decl:   TYPE_ID IDENTIFIER  {}
+var_decl:   TYPE_ID IDENTIFIER  { $$ = new cVarDeclNode($1, $2); }
 struct_decl:  STRUCT open decls close IDENTIFIER
                                 {}
 array_decl: ARRAY TYPE_ID '[' INT_VAL ']' IDENTIFIER
@@ -161,7 +164,7 @@ func_call:  IDENTIFIER '(' params ')' {}
 
 varref:   varref '.' varpart    {}
         | varref '[' expr ']'   {}
-        | varpart               {}
+        | varpart               { $$ = new cVarExprNode($1); }
 
 varpart:  IDENTIFIER            { $$ = $1; }
 

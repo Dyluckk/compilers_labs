@@ -5,7 +5,7 @@
 // Defines a nested symbol table.
 // Individual levels of the symbol table use a std::unordered_map from the STL
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
 // Date: Jan. 26, 2016
@@ -32,8 +32,20 @@ class cSymbolTable
         // Increasing the scope must create a symbol table, so we call
         // that function to do the actual work of creating the object
         cSymbolTable()
-        { 
+        {
             IncreaseScope();
+
+            cSymbol * char_sym = new cSymbol("char");
+            // char_sym->SetType();
+            Insert(char_sym);
+
+            cSymbol * int_sym = new cSymbol("int");
+            // int_sym->SetType();
+            Insert(int_sym);
+
+            cSymbol * float_sym = new cSymbol("float");
+            // float_sym->SetType();
+            Insert(float_sym);
         }
 
         // Increase the scope: add a level to the nested symbol table
@@ -67,7 +79,7 @@ class cSymbolTable
         }
 
         // Do a lookup in the nested table. Return the symbol for the outer-most
-        // match. 
+        // match.
         // Returns nullptr if no match is found.
         cSymbol *Find(string name)
         {

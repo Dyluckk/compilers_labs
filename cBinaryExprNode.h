@@ -1,11 +1,11 @@
 #pragma once
 //**************************************
-// cFloatExprNode.h
+// cBinaryExprNode.h
 //
-// Defines an AST node for an float constant (literals).
+// Defines an AST node for an binary expressions.
 //
-// Inherits from cExprNode so that integer constants can be used anywhere
-// expressions are used.
+// Inherits from cExprNode so that binary expressions can be used in those type of
+// expressions
 //
 // Author: Zachary Wentworth
 // zachary.wentworth@oit.edu
