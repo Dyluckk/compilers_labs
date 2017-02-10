@@ -35,3 +35,4 @@
 #include "cFuncExprNode.h"
 #include "cParamsNode.h"
 #include "cParamListNode.h"
+#include "cArrayDeclNode.h"
