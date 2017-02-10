@@ -46,3 +46,7 @@ void cVisitor::Visit(cReturnNode *node)       { VisitAllChildren(node); }
 void cVisitor::Visit(cWhileNode *node)        { VisitAllChildren(node); }
 void cVisitor::Visit(cAssignNode *node)       { VisitAllChildren(node); }
 void cVisitor::Visit(cStructDeclNode *node)   { VisitAllChildren(node); }
+void cVisitor::Visit(cFuncDeclNode *node)     { VisitAllChildren(node); }
+void cVisitor::Visit(cFuncExprNode *node)     { VisitAllChildren(node); }
+void cVisitor::Visit(cParamsNode *node)       { VisitAllChildren(node); }
+void cVisitor::Visit(cParamListNode *node)    { VisitAllChildren(node); }

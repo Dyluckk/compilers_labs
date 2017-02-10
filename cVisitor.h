@@ -21,6 +21,10 @@ class cReturnNode;
 class cWhileNode;
 class cAssignNode;
 class cStructDeclNode;
+class cFuncDeclNode;
+class cFuncExprNode;
+class cParamsNode;
+class cParamListNode;
 
 class cVisitor
 {
@@ -50,6 +54,10 @@ class cVisitor
         virtual void Visit(cWhileNode *node);
         virtual void Visit(cAssignNode *node);
         virtual void Visit(cStructDeclNode *node);
+        virtual void Visit(cFuncDeclNode *node);
+        virtual void Visit(cFuncExprNode *node);
+        virtual void Visit(cParamsNode *node);
+        virtual void Visit(cParamListNode *node);
 
     protected:
         void PreVisitAllNodes(cAstNode *node);

@@ -32,6 +32,10 @@
     cDeclNode*      decl_node;
     cDeclsNode*     decls_node;
     cVarExprNode*   var_expr;
+    cFuncDeclNode*	func_decl_node;
+    cFuncExprNode*	func_expr_node;
+    cParamListNode*	param_list_node;
+    cParamsNode* 	  params_node;
     }
 
 %{
@@ -58,32 +62,32 @@
 %token  JUNK_TOKEN
 
  /* NOTE: you will have to change some of these as you complete your lab */
-%type <program_node> program
-%type <block_node> block
-%type <sym_table> open
-%type <sym_table> close
-%type <decls_node> decls
-%type <decl_node> decl
-%type <decl_node> var_decl
-%type <decl_node> struct_decl
-%type <decl_node> array_decl
-%type <ast_node> func_decl
-%type <ast_node> func_header
-%type <symbol> func_prefix
-%type <ast_node> func_call
-%type <ast_node> paramsspec
-%type <ast_node> paramspec
-%type <stmts_node> stmts
-%type <stmt_node> stmt
-%type <var_expr> lval
-%type <ast_node> params
-%type <ast_node> param
-%type <expr_node> expr
-%type <expr_node> addit
-%type <expr_node> term
-%type <expr_node> fact
-%type <var_expr> varref
-%type <symbol> varpart
+ %type <program_node> program
+ %type <block_node> block
+ %type <sym_table> open
+ %type <sym_table> close
+ %type <decls_node> decls
+ %type <decl_node> decl
+ %type <decl_node> var_decl
+ %type <decl_node> struct_decl
+ %type <decl_node> array_decl
+ %type <func_decl_node> func_decl
+ %type <func_decl_node> func_header
+ %type <func_decl_node> func_prefix
+ %type <func_expr_node> func_call
+ %type <params_node> paramsspec
+ %type <decl_node> paramspec
+ %type <stmts_node> stmts
+ %type <stmt_node> stmt
+ %type <var_expr> lval
+ %type <param_list_node> params
+ %type <expr_node> param
+ %type <expr_node> expr
+ %type <expr_node> addit
+ %type <expr_node> term
+ %type <expr_node> fact
+ %type <var_expr> varref
+ %type <symbol> varpart
 
 %%
 
@@ -111,9 +115,9 @@ decls:      decls decl          {
                                 }
         |   decl                { $$ = new cDeclsNode($1); }
 decl:       var_decl ';'        { $$ = $1; }
-        |   struct_decl ';'     {}
-        |   array_decl ';'      {}
-        |   func_decl           {}
+        |   struct_decl ';'     { $$ = $1; }
+        |   array_decl ';'      { $$ = $1; }
+        |   func_decl           { $$ = $1}
         |   error ';'           {}
 
 var_decl:   TYPE_ID IDENTIFIER  { $$ = new cVarDeclNode($1, $2); }
@@ -123,21 +127,42 @@ array_decl: ARRAY TYPE_ID '[' INT_VAL ']' IDENTIFIER
                                 {}
 
 func_decl:  func_header ';'
-                                {}
+                                {
+                                  $$ = $1;
+                                  g_SymbolTable.DecreaseScope();
+                                }
         |   func_header  '{' decls stmts '}'
-                                {}
+                                {
+                                  $$ = $1;
+                                  $$->Insert($3);
+                                  $$->Insert($4);
+                                  g_SymbolTable.DecreaseScope();
+                                }
         |   func_header  '{' stmts '}'
-                                {}
+                                {
+                                  $$ = $1;
+                                  $$->Insert($3);
+                                  g_SymbolTable.DecreaseScope();
+                                }
 func_header: func_prefix paramsspec ')'
-                                {}
-        |    func_prefix ')'    {}
+                                {
+                                  $$ = $1;
+                                  $$->Insert($2);
+                                }
+        |    func_prefix ')'    { $$ = $1; }
 func_prefix: TYPE_ID IDENTIFIER '('
-                                {}
+                                {
+                                  $$ = new cFuncDeclNode($1, $2);
+                                  g_SymbolTable.IncreaseScope();
+                                }
 paramsspec: paramsspec',' paramspec
-                                {}
-        |   paramspec           {}
+                                {
+                                  $$ = $1;
+				                          $$->Insert($3);
+                                }
+        |   paramspec           { $$ = new cParamsNode($1); }
 
-paramspec:  var_decl            {}
+paramspec:  var_decl            { $$ = $1; }
 
 stmts:      stmts stmt          {
                                   $$=$1;
@@ -154,14 +179,16 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
         |   PRINT '(' expr ')' ';'
                                 { $$ = new cPrintNode($3); }
         |   lval '=' expr ';'   { $$ = new cAssignNode($1, $3); }
-        |   lval '=' func_call ';'   {}
-        |   func_call ';'       {}
-        |   block               {}
+        |   lval '=' func_call ';'
+                                { $$ = new cAssignNode($1, $3); }
+        |   func_call ';'       { $$ = $1; }
+        |   block               { $$ = $1 }
         |   RETURN expr ';'     { $$ = new cReturnNode($2); }
         |   error ';'           {}
 
-func_call:  IDENTIFIER '(' params ')' {}
-        |   IDENTIFIER '(' ')'  {}
+func_call:  IDENTIFIER '(' params ')'
+                                { $$ = new cFuncExprNode($1, $3); }
+        |   IDENTIFIER '(' ')'  { $$ = new cFuncExprNode($1, nullptr); }
 
 varref:   varref '.' varpart    {
                                   $$ = $1;
@@ -174,10 +201,13 @@ varpart:  IDENTIFIER            { $$ = $1; }
 
 lval:     varref                { $$ = $1; }
 
-params:     params',' param     {}
-        |   param               {}
+params:     params',' param     {
+                                  $$ = $1;
+				                          $$->Insert($3);
+                                }
+        |   param               { $$ = new cParamListNode($1);}
 
-param:      expr                {}
+param:      expr                { $$ = $1; }
 
 expr:       expr EQUALS addit   { $$ = new cBinaryExprNode($1, new cOpNode(EQUALS), $3); }
         |   addit               { $$ = $1; }
@@ -194,7 +224,7 @@ term:       term '*' fact       { $$ = new cBinaryExprNode($1, new cOpNode('*'),
 fact:       '(' expr ')'        { $$ = $2; }
         |   INT_VAL             { $$ = new cIntExprNode($1); }
         |   FLOAT_VAL           { $$ = new cFloatExprNode($1); }
-        |   varref              { }
+        |   varref              { $$ = $1 }
 
 %%
 
