@@ -101,11 +101,13 @@ program: block                  { $$ = new cProgramNode($1);
 block:  open decls stmts close  { $$ = new cBlockNode($2, $3); }
     |   open stmts close        { $$ = new cBlockNode(nullptr, $2); }
 
-open:   '{'                     { g_SymbolTable.IncreaseScope();
+open:   '{'                     {
+                                  g_SymbolTable.IncreaseScope();
                                   $$ = nullptr; // probably want to change this
                                 }
 
-close:  '}'                     { g_SymbolTable.DecreaseScope();
+close:  '}'                     {
+                                  g_SymbolTable.DecreaseScope();
                                   $$ = nullptr; // probably want to change this
                                 }
 
@@ -117,14 +119,14 @@ decls:      decls decl          {
 decl:       var_decl ';'        { $$ = $1; }
         |   struct_decl ';'     { $$ = $1; }
         |   array_decl ';'      { $$ = $1; }
-        |   func_decl           { $$ = $1}
+        |   func_decl           { $$ = $1; }
         |   error ';'           {}
 
 var_decl:   TYPE_ID IDENTIFIER  { $$ = new cVarDeclNode($1, $2); }
 struct_decl:  STRUCT open decls close IDENTIFIER
                                 { $$ = new cStructDeclNode($3, $5); }
 array_decl: ARRAY TYPE_ID '[' INT_VAL ']' IDENTIFIER
-                                {}
+                                { $$ = new cArrayDeclNode($2, $4, $6); }
 
 func_decl:  func_header ';'
                                 {
@@ -182,7 +184,7 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
         |   lval '=' func_call ';'
                                 { $$ = new cAssignNode($1, $3); }
         |   func_call ';'       { $$ = $1; }
-        |   block               { $$ = $1 }
+        |   block               { $$ = $1; }
         |   RETURN expr ';'     { $$ = new cReturnNode($2); }
         |   error ';'           {}
 
@@ -194,7 +196,10 @@ varref:   varref '.' varpart    {
                                   $$ = $1;
                                   $$->Insert($3);
                                 }
-        | varref '[' expr ']'   {}
+        | varref '[' expr ']'   {
+                                  $$ = $1;
+				                          $$->AddChild($3);
+                                }
         | varpart               { $$ = new cVarExprNode($1); }
 
 varpart:  IDENTIFIER            { $$ = $1; }
@@ -224,7 +229,7 @@ term:       term '*' fact       { $$ = new cBinaryExprNode($1, new cOpNode('*'),
 fact:       '(' expr ')'        { $$ = $2; }
         |   INT_VAL             { $$ = new cIntExprNode($1); }
         |   FLOAT_VAL           { $$ = new cFloatExprNode($1); }
-        |   varref              { $$ = $1 }
+        |   varref              { $$ = $1; }
 
 %%
 
