@@ -118,7 +118,7 @@ decl:       var_decl ';'        { $$ = $1; }
 
 var_decl:   TYPE_ID IDENTIFIER  { $$ = new cVarDeclNode($1, $2); }
 struct_decl:  STRUCT open decls close IDENTIFIER
-                                {}
+                                { $$ = new cStructDeclNode($3, $5); }
 array_decl: ARRAY TYPE_ID '[' INT_VAL ']' IDENTIFIER
                                 {}
 
@@ -163,7 +163,10 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
 func_call:  IDENTIFIER '(' params ')' {}
         |   IDENTIFIER '(' ')'  {}
 
-varref:   varref '.' varpart    {}
+varref:   varref '.' varpart    {
+                                  $$ = $1;
+                                  $$->Insert($3);
+                                }
         | varref '[' expr ']'   {}
         | varpart               { $$ = new cVarExprNode($1); }
 

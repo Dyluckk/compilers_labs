@@ -16,16 +16,24 @@
 #include "cDeclNode.h"
 #include "cExprNode.h"
 
-class cVarExprNode : public cExprNode
+class cStructDeclNode : public cDeclNode
 {
     public:
         // param is the value of the integer constant
-        cVarExprNode(cSymbol * val) : cExprNode()
+        cStructDeclNode(cDeclsNode * declsNode, cSymbol  * name) : cDeclNode()
         {
-            AddChild(val);
+          AddChild(declsNode);
+
+          if (g_SymbolTable.Find(name->GetName())){
+              name = new cSymbol(name->GetName());
+          }
+
+          g_SymbolTable.Insert(name);
+          name->setType();
+          AddChild(name);
         }
 
-        virtual string NodeType() { return string("varref"); }
+        virtual string NodeType() { return string("struct_decl"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 
         void Insert(cSymbol * var)
