@@ -5,7 +5,7 @@
 // Defines class used to represent symbols.
 // Later labs will add features to this class.
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
 // Date: Jan. 18, 2015
@@ -25,6 +25,7 @@ class cSymbol : public cAstNode
         {
             m_id = ++nextId;        // get next available ID
             m_name = name;
+            isSet = false;
         }
 
         // return name of symbol
@@ -39,8 +40,18 @@ class cSymbol : public cAstNode
         }
         virtual string NodeType() { return string("sym"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+
+        void setType(){
+          isSet = true;
+        }
+
+        bool getType(){
+          return isSet;
+        }
+
     protected:
         static long long nextId;        // Next avail symbol ID
         long long m_id;                 // Unique ID for this symbol
         string m_name;                  // name of symbol
+        bool isSet;                     // used to check if type is set
 };

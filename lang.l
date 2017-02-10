@@ -73,9 +73,15 @@ whitespace      '[\t\n\r ]'
                               if (yylval.symbol == nullptr)
                               {
                                   yylval.symbol = new cSymbol(yytext);
-                                  g_SymbolTable.Insert(yylval.symbol);
+                                  //  g_SymbolTable.Insert(yylval.symbol);
+
                               }
-                              DO_RETURN(IDENTIFIER);
+                              if (yylval.symbol->getType()){
+                                  DO_RETURN(TYPE_ID)
+                              }
+                              else {
+                                  DO_RETURN(IDENTIFIER);
+                              }
                             }
 [0-9]+                      {
                                 yylval.int_val = atoi(yytext);

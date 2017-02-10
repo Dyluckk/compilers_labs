@@ -36,15 +36,15 @@ class cSymbolTable
             IncreaseScope();
 
             cSymbol * char_sym = new cSymbol("char");
-            // char_sym->SetType();
+            char_sym->setType();
             Insert(char_sym);
 
             cSymbol * int_sym = new cSymbol("int");
-            // int_sym->SetType();
+            int_sym->setType();
             Insert(int_sym);
 
             cSymbol * float_sym = new cSymbol("float");
-            // float_sym->SetType();
+            float_sym->setType();
             Insert(float_sym);
         }
 
