@@ -1,17 +1,17 @@
-#pragma once
 //**************************************
 // cBlockNode.h
 //
 // Defines AST node for a block of code (stuff inside {})
 //
-// Since blocks can take the place of statements, this class inherits from 
+// Since blocks can take the place of statements, this class inherits from
 // cStmtNode
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
 // Date: Jan. 18, 2016
 //
+#pragma once
 
 #include "cAstNode.h"
 #include "cDeclsNode.h"
@@ -22,8 +22,7 @@ class cBlockNode : public cStmtNode
 {
     public:
         // params are the decls and statements contained in the block
-        cBlockNode(cDeclsNode *decls, cStmtsNode *statements)
-            : cStmtNode()
+        cBlockNode(cDeclsNode *decls, cStmtsNode *statements) : cStmtNode()
         {
             AddChild(decls);
             AddChild(statements);

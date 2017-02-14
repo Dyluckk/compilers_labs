@@ -1,16 +1,16 @@
-#pragma once
 //**************************************
-// cVarDeclNode.h
+// cFuncDeclNode.h
 //
-// Defines an AST node for an variable declerations
+// Defines an AST node for function declerations
 //
-// Inherits from cDeclsNode
+// Inherits from cDeclNode
 //
 // Author: Zachary Wentworth
 // zachary.wentworth@oit.edu
 //
 // Date: Feb. 9, 2017
 //
+#pragma once
 
 #include "cAstNode.h"
 #include "cSymbol.h"
@@ -21,7 +21,6 @@
 class cFuncDeclNode : public cDeclNode
 {
     public:
-        // param is the value of the integer constant
         cFuncDeclNode(cSymbol * type, cSymbol * name)
         {
             if(g_SymbolTable.Find(name->GetName()))

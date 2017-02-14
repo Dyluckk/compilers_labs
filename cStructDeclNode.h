@@ -1,16 +1,16 @@
-#pragma once
 //**************************************
-// cVarDeclNode.h
+// cStructDeclNode.h
 //
-// Defines an AST node for an variable declerations
+// Defines an AST node for an struct declerations
 //
-// Inherits from cDeclsNode
+// Inherits from cDeclNode
 //
 // Author: Zachary Wentworth
 // zachary.wentworth@oit.edu
 //
 // Date: Feb. 9, 2017
 //
+#pragma once
 
 #include "cAstNode.h"
 #include "cDeclNode.h"
@@ -19,7 +19,6 @@
 class cStructDeclNode : public cDeclNode
 {
     public:
-        // param is the value of the integer constant
         cStructDeclNode(cDeclsNode * declsNode, cSymbol  * name) : cDeclNode()
         {
           AddChild(declsNode);

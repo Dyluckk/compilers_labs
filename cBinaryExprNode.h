@@ -1,4 +1,3 @@
-#pragma once
 //**************************************
 // cBinaryExprNode.h
 //
@@ -12,6 +11,7 @@
 //
 // Date: Feb. 9, 2017
 //
+#pragma once
 
 #include "cAstNode.h"
 #include "cExprNode.h"

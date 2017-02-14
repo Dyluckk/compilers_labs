@@ -1,4 +1,3 @@
-#pragma once
 //**************************************
 // cFloatExprNode.h
 //
@@ -12,6 +11,7 @@
 //
 // Date: Feb. 9, 2017
 //
+#pragma once
 
 #include "cAstNode.h"
 #include "cExprNode.h"
@@ -31,6 +31,7 @@ class cFloatExprNode : public cExprNode
         }
         virtual string NodeType() { return string("float"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+
     protected:
         double m_value;        // value of float constant (literal)
 };

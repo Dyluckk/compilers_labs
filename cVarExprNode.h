@@ -1,4 +1,3 @@
-#pragma once
 //**************************************
 // cVarDeclNode.h
 //
@@ -11,6 +10,7 @@
 //
 // Date: Feb. 9, 2017
 //
+#pragma once
 
 #include "cAstNode.h"
 #include "cDeclNode.h"
@@ -19,7 +19,6 @@
 class cVarExprNode : public cExprNode
 {
     public:
-        // param is the value of the integer constant
         cVarExprNode(cSymbol * val) : cExprNode()
         {
             AddChild(val);

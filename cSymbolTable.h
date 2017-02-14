@@ -1,4 +1,3 @@
-#pragma once
 //**************************************
 // cSymbolTable.h
 //
@@ -10,6 +9,7 @@
 //
 // Date: Jan. 26, 2016
 //
+#pragma once
 
 #include <string>
 #include <unordered_map>

@@ -1,16 +1,16 @@
-#pragma once
 //**************************************
 // cVarDeclNode.h
 //
-// Defines an AST node for an variable declerations
+// Defines cParamasNode
 //
-// Inherits from cDeclsNode
+// Inherits from cDeclNode
 //
 // Author: Zachary Wentworth
 // zachary.wentworth@oit.edu
 //
 // Date: Feb. 9, 2017
 //
+#pragma once
 
 #include "cAstNode.h"
 #include "cDeclNode.h"

@@ -1,16 +1,16 @@
-#pragma once
 //**************************************
-// cVarDeclNode.h
+// cReturnNode.h
 //
-// Defines an AST node for an variable declerations
+// Defines an AST node for returns
 //
-// Inherits from cDeclsNode
+// Inherits from cStmtNode
 //
 // Author: Zachary Wentworth
 // zachary.wentworth@oit.edu
 //
 // Date: Feb. 9, 2017
 //
+#pragma once
 
 #include "cAstNode.h"
 #include "cStmtNode.h"
@@ -19,7 +19,6 @@
 class cReturnNode : public cStmtNode
 {
     public:
-        // param is the value of the integer constant
         cReturnNode(cExprNode * expr) : cStmtNode()
         {
             AddChild(expr);

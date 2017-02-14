@@ -1,14 +1,14 @@
-#pragma once
 //**************************************
 // cStmtsNode.h
 //
 // Defines AST node that represents a list of statements
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
 // Date: Jan 9, 2016
 //
+#pragma once
 
 #include "cAstNode.h"
 #include "cStmtNode.h"

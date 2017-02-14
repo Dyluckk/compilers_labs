@@ -1,14 +1,15 @@
-#pragma once
 //**************************************
 // cDeclsNode.h
 //
 // Defines a class to represent a list of declarations.
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
 // Date: Jan. 7, 2016
 //
+
+#pragma once
 
 #include "cAstNode.h"
 #include "cDeclNode.h"

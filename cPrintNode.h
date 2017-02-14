@@ -1,4 +1,3 @@
-#pragma once
 //**************************************
 // cPrintNode.h
 //
@@ -7,11 +6,12 @@
 // Inherits from cStmtNode so print statments can go in statement lists, and be
 // used anywhere a statement is legal.
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
 // Date: Jan. 18, 2015
 //
+#pragma once
 
 #include "cAstNode.h"
 #include "cStmtNode.h"

@@ -1,5 +1,16 @@
+//**************************************
+// cArrayDeclNode.h
+//
+// Defines an AST node for array declerations
+//
+// Inherits from cDeclNode
+//
+// Author: Zachary Wentworth
+// zachary.wentworth@oit.edu
+//
+// Date: Feb. 9, 2017
+//
 #pragma once
-
 
 #include "cAstNode.h"
 #include "cDeclNode.h"
@@ -15,18 +26,16 @@ class cArrayDeclNode : public cDeclNode
 			   value = count;
 			   AddChild(type);
 
-         //check if its already in scope and if is then make new and insert that else insert passed in
 			   if(g_SymbolTable.Find(name->GetName()))
 			   {
 				   name = new cSymbol(name->GetName());
 			   }
 
          g_SymbolTable.Insert(name);
-
 			   AddChild(name);
 		}
 
-		//output the correct string that output wants
+		//output the correct string wanted by output
 		virtual string AttributesToString()
 		{
 			string result(" count='");

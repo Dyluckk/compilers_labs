@@ -1,4 +1,3 @@
-#pragma once
 //**************************************
 // cStmtNode.h
 //
@@ -6,11 +5,12 @@
 //
 // NOTE: all statement types must inherit from this class
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
 // Date: Jan. 18, 2015
 //
+#pragma once
 
 #include "cAstNode.h"
 

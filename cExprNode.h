@@ -1,4 +1,3 @@
-#pragma once
 //**************************************
 // cExprNode.h
 //
@@ -7,11 +6,12 @@
 // This is a pure virtual class because there is no definition for
 // cAstNode::ToString()
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
 // Date: Jan. 18, 2015
 //
+#pragma once
 
 #include "cStmtNode.h"
 

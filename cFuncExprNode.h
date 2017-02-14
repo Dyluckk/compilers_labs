@@ -1,16 +1,16 @@
-#pragma once
 //**************************************
-// cVarDeclNode.h
+// cFuncExprNode.h
 //
-// Defines an AST node for an variable declerations
+// Defines an AST node for function expressions
 //
-// Inherits from cDeclsNode
+// Inherits from cExprNode
 //
 // Author: Zachary Wentworth
 // zachary.wentworth@oit.edu
 //
 // Date: Feb. 9, 2017
 //
+#pragma once
 
 #include "cAstNode.h"
 #include "cExprNode.h"
@@ -22,14 +22,12 @@
 class cFuncExprNode : public cExprNode
 {
     public:
-        // param is the value of the integer constant
         cFuncExprNode(cSymbol * type, cParamListNode * name) : cExprNode()
         {
             AddChild(type);
             AddChild(name);
         }
 
-        //inserts any param list for any function
     		void Insert(cParamListNode * list)
     		{
     			AddChild(list);

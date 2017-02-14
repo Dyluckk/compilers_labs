@@ -1,4 +1,3 @@
-#pragma once
 //**************************************
 // cSymbol.h
 //
@@ -10,11 +9,10 @@
 //
 // Date: Jan. 18, 2015
 //
+#pragma once
 
 #include <string>
-
 using std::string;
-
 #include "cAstNode.h"
 
 class cSymbol : public cAstNode
