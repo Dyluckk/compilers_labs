@@ -20,7 +20,7 @@ class cArrayDeclNode : public cDeclNode
 {
 	public:
 
-		cArrayDeclNode(cSymbol * type, int count, cSymbol * name) : cDeclNode()
+		cArrayDeclNode(cSymbol* type, int count, cSymbol* name) : cDeclNode()
 		{
          if(g_SymbolTable.Find(name->GetName()))
 			   {
@@ -62,6 +62,8 @@ class cArrayDeclNode : public cDeclNode
 		virtual string NodeType() { return string("array_decl"); }
     virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 
+    virtual bool IsType()  { return true; }
+    virtual bool IsArray() { return true; }
 	protected:
     int m_count;
 };

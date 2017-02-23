@@ -37,7 +37,7 @@ class cBaseTypeNode : public cDeclNode
         return (static_cast<cSymbol* >(GetChild(0)))->GetDecl();
       }
 
-      virtual bool IsType() {return true;}
+      virtual bool IsType() { return true; }
       virtual string NodeType() { return string("base_node"); }
       virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
     protected:
