@@ -20,29 +20,30 @@ all: lang
 clean:
 	rm -f $(OBJS)
 	rm -f langlex.c
-	rm -f langparse.c
+	rm -f langparse.cpp
 	rm -f langparse.h
 	rm -f lang
 	rm -f out.xml
 	rm -f out2.xml
 
 .cpp.o:
-	g++ $(COPTS) $? -o $@
+	g++ $(COPTS) $< -o $@
 
 .c.o:
-	g++ $(COPTS) $? -o $@
+	g++ $(COPTS) $< -o $@
 
-main.o: main.cpp langparse.c langlex.c 
+main.o: main.cpp langparse.cpp langlex.cpp 
 	g++ $(COPTS) main.cpp -o $@
 
-langlex.o: langlex.c
-	g++ $(COPTS) -Wno-sign-compare $? -o $@
+## added -Wno-deprecated-register to remove register warning errors when building on my local machine
+langlex.o: langlex.cpp
+	g++ $(COPTS) -Wno-sign-compare -Wno-deprecated-register $? -o $@
 
-langlex.c: lang.l langparse.c
-	flex -o langlex.c lang.l
+langlex.cpp: lang.l langparse.cpp
+	flex -o langlex.cpp lang.l
 
-langparse.c: lang.y
-	bison --defines=langparse.h lang.y -o langparse.c
+langparse.cpp: lang.y
+	bison --defines=langparse.h lang.y -o langparse.cpp
 
 lang: $(OBJS)
 	g++ $(OBJS) -o lang

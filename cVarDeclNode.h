@@ -31,6 +31,22 @@ class cVarDeclNode : public cDeclNode
             AddChild(name);
         }
 
+        void Insert(cSymbol * var)
+        {
+            AddChild(var);
+        }
+
+        //override GetName Virtual function from cDeclNode
+        virtual cSymbol* GetName()
+        {
+          return static_cast<cSymbol* >(GetChild(1));
+        }
+        //override GetType Virtual function from cDeclNode
+        virtual cDeclNode* GetType()
+        {
+          return (static_cast<cSymbol* >(GetChild(0)))->GetDecl();
+        }
+
         virtual string NodeType() { return string("var_decl"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 };

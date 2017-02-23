@@ -22,6 +22,7 @@ using std::list;
 using std::pair;
 
 #include "cSymbol.h"
+#include "cBaseTypeNode.h"
 
 class cSymbolTable
 {
@@ -35,17 +36,17 @@ class cSymbolTable
         {
             IncreaseScope();
 
-            cSymbol * char_sym = new cSymbol("char");
-            char_sym->setType();
-            Insert(char_sym);
+            cSymbol* char_type = new cSymbol("char");
+            char_type->SetDecl(new cBaseTypeNode("char", 1, false));
+            Insert(char_type);
 
-            cSymbol * int_sym = new cSymbol("int");
-            int_sym->setType();
-            Insert(int_sym);
+            cSymbol* int_type = new cSymbol("int");
+            int_type->SetDecl(new cBaseTypeNode("int", 4, false));
+            Insert(int_type);
 
-            cSymbol * float_sym = new cSymbol("float");
-            float_sym->setType();
-            Insert(float_sym);
+            cSymbol* float_type = new cSymbol("float");
+            float_type->SetDecl(new cBaseTypeNode("float", 8, true));
+            Insert(float_type);
         }
 
         // Increase the scope: add a level to the nested symbol table

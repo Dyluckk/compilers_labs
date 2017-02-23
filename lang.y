@@ -160,7 +160,7 @@ func_prefix: TYPE_ID IDENTIFIER '('
 paramsspec: paramsspec',' paramspec
                                 {
                                   $$ = $1;
-				                          $$->Insert($3);
+                            $$->Insert($3);
                                 }
         |   paramspec           { $$ = new cParamsNode($1); }
 
@@ -198,7 +198,7 @@ varref:   varref '.' varpart    {
                                 }
         | varref '[' expr ']'   {
                                   $$ = $1;
-				                          $$->AddChild($3);
+                            $$->AddChild($3);
                                 }
         | varpart               { $$ = new cVarExprNode($1); }
 
@@ -208,7 +208,7 @@ lval:     varref                { $$ = $1; }
 
 params:     params',' param     {
                                   $$ = $1;
-				                          $$->Insert($3);
+                            $$->Insert($3);
                                 }
         |   param               { $$ = new cParamListNode($1);}
 
@@ -240,4 +240,12 @@ int yyerror(const char *msg)
         << yytext << " on line " << yylineno << "\n";
 
     return 0;
+}
+
+// Function that gets called when a semantic error happens
+void SemanticError(std::string error)
+{
+    std::cout << "ERROR: " << error << " on line "
+              << yylineno << "\n";
+    yynerrs++;
 }

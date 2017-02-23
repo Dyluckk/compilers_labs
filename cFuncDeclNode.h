@@ -38,6 +38,17 @@ class cFuncDeclNode : public cDeclNode
             AddChild(astNodeChild);
         }
 
+        //override GetName Virtual function from cDeclNode
+        virtual cSymbol* GetName()
+        {
+          return static_cast<cSymbol* >(GetChild(1));
+        }
+        //override GetType Virtual function from cDeclNode
+        virtual cDeclNode* GetType()
+        {
+          return (static_cast<cSymbol* >(GetChild(0)))->GetDecl();
+        }
+
         virtual string NodeType() { return string("func"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 };

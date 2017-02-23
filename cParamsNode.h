@@ -29,6 +29,17 @@ class cParamsNode : public cDeclNode
             AddChild(child);
         }
 
+        //override GetName Virtual function from cDeclNode
+        virtual cSymbol* GetName()
+        {
+          return static_cast<cSymbol* >(GetChild(1));
+        }
+        //override GetType Virtual function from cDeclNode
+        virtual cDeclNode* GetType()
+        {
+          return (static_cast<cSymbol* >(GetChild(0)))->GetDecl();
+        }
+
         virtual string NodeType() { return string("args"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 };

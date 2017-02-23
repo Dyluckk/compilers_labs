@@ -1,3 +1,15 @@
+Lab 4 Feedback
+
+145
+
+-1 cFuncDeclNode::Insert adds no functionality above AddChild, so you might as well just call AddChild.
+
+-1 Some of your indentation was way off. I suspect it's because you have mixed spaces and tabs. You should convert to all spaces (there's a linux utility that will do it for you).
+
+-3 Your cFuncDeclNode implementation will make it hard to write getters for all the parts. For example, where are the statements? in m_children[2], [3], or [4]?
+
+********************************************
+
 Lab 3 Feedback
 
 86
