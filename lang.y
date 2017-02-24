@@ -138,14 +138,14 @@ func_decl:  func_header ';'
                                 {
                                   $$ = $1;
                                   $1->InsertDecls($3);
-                                  $$->Insert($4);
+                                  $1->InsertStmts($4);
                                   g_SymbolTable.DecreaseScope();
                                 }
         |   func_header  '{' stmts '}'
                                 {
                                   $$ = $1;
                                   $1->InsertDecls(nullptr);
-                                  $$->Insert($3);
+                                  $1->InsertStmts($3);
                                   g_SymbolTable.DecreaseScope();
                                 }
 func_header: func_prefix paramsspec ')'

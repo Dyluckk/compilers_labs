@@ -22,7 +22,7 @@
 class cFuncDeclNode : public cDeclNode {
 public:
 
-  cFuncDeclNode(cSymbol *type, cSymbol *name) : cDeclNode()
+  cFuncDeclNode(cSymbol* type, cSymbol* name) : cDeclNode()
   {
     m_name       = name;
     m_returnType = type;
@@ -40,7 +40,7 @@ public:
       // check if the found otherSymbol is a FuncDecl
       if (otherSymbol->GetDecl()->IsFunc())
       {
-        cFuncDeclNode *otherFunc = dynamic_cast<cFuncDeclNode *>(otherSymbol->GetDecl());
+        cFuncDeclNode *otherFunc = static_cast<cFuncDeclNode *>(otherSymbol->GetDecl());
         m_other = otherFunc;
 
         // check if the type is different
@@ -78,7 +78,7 @@ public:
   }
 
   // used to insert parameters
-  void InsertParams(cParamsNode *params)
+  void InsertParams(cParamsNode* params)
   {
     // check if m_other exists and has parameters and params is not nullptr
     // proceed to check for semantic errors
@@ -97,10 +97,10 @@ public:
         for (int i = 0; (i < params->NumChildren()) && (isDifferent == false); i++)
         {
           // get child of parameters @ index i
-          cDeclNode *child = dynamic_cast<cDeclNode *>(params->GetChild(i));
+          cDeclNode *child = static_cast<cDeclNode *>(params->GetChild(i));
 
           // get child of other functions paramater child @ index i
-          cDeclNode *otherChild = dynamic_cast<cDeclNode *>(m_other->GetParams()->GetChild(i));
+          cDeclNode *otherChild = static_cast<cDeclNode *>(m_other->GetParams()->GetChild(i));
 
           // compare parameter types
           if (child->GetType() != otherChild->GetType())
@@ -121,9 +121,28 @@ public:
   }
 
   // Add local variable declarations to the list
-  void InsertDecls(cDeclsNode *decls)
+  void InsertDecls(cDeclsNode* decls)
   {
     AddChild(decls);
+  }
+
+  // Add the function statements to the list
+  void InsertStmts(cStmtsNode* stmts)
+  {
+    cFuncDeclNode* func = static_cast<cFuncDeclNode *>(m_name->GetDecl());
+
+    //check if stmts were passed, and check if the function has already been defined
+    if ((stmts != nullptr) && (func->isDefined() == true))
+    {
+      SemanticError(m_name->GetName() + " already has a definition");
+    }
+    //check if stmts were passed, set function as defined
+    else if ((stmts != nullptr))
+    {
+      m_isDefined = true;
+    }
+
+    AddChild(stmts);
   }
 
   void Insert(cAstNode *astNodeChild)
