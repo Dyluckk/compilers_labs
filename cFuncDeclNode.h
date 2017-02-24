@@ -25,10 +25,22 @@ class cFuncDeclNode : public cDeclNode
         {
             if(g_SymbolTable.Find(name->GetName()))
             {
-                name = new cSymbol(name->GetName());
+                if(g_SymbolTable.FindLocal(name->GetName()))
+		{
+			//semantic error call
+		}
+		
+		name = new cSymbol(name->GetName());
+		g_SymbolTable.Insert(name);
+		name->SetDecl(this);
             }
+	    else
+	    {
+		g_SymbolTable.Insert(name);
+		name->SetDecl(this);
+	    }
 
-            g_SymbolTable.Insert(name);
+            //g_SymbolTable.Insert(name);
 
             AddChild(type);
             AddChild(name);
@@ -49,6 +61,7 @@ class cFuncDeclNode : public cDeclNode
           return (static_cast<cSymbol* >(GetChild(0)))->GetDecl();
         }
 
+        virtual bool IsFunc()   { return true; }
         virtual string NodeType() { return string("func"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 };

@@ -53,6 +53,7 @@ class cArrayDeclNode : public cDeclNode
     {
       return static_cast<cSymbol* >(GetChild(1));
     }
+    
     //override GetType Virtual function from cDeclNode
     virtual cDeclNode* GetType()
     {

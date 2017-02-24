@@ -24,10 +24,21 @@ class cVarDeclNode : public cDeclNode
             AddChild(type);
 
             if (g_SymbolTable.Find(name->GetName())){
+		if(g_SymbolTable.FindLocal(name->GetName()))
+		{
+			SemanticError("Symbol " + name->GetName() + " already defined in current scope");
+		}
                 name = new cSymbol(name->GetName());
+		g_SymbolTable.Insert(name);
+		name->SetDecl(this);
             }
+	    else
+	    {
+		g_SymbolTable.Insert(name);
+		name->SetDecl(this);
+	    }
 
-            g_SymbolTable.Insert(name);
+            //g_SymbolTable.Insert(name);
             AddChild(name);
         }
 
@@ -49,4 +60,5 @@ class cVarDeclNode : public cDeclNode
 
         virtual string NodeType() { return string("var_decl"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+        virtual bool IsVar() { return true; }
 };

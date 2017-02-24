@@ -18,7 +18,7 @@ class cDeclNode : public cAstNode
     public:
         cDeclNode() : cAstNode() {}
         virtual cSymbol* GetName() = 0;
-        virtual cDeclNode *GetType() = 0;
+        virtual cDeclNode* GetType() = 0;
         virtual bool IsArray()  { return false; }
         virtual bool IsStruct() { return false; }
         virtual bool IsType()   { return false; }

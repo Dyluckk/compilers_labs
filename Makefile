@@ -3,7 +3,7 @@
 ##
 ## Build routine for lang compiler
 ##
-## Author: Phil Howard 
+## Author: Phil Howard
 ## phil.howard@oit.edu
 ##
 ## Date: Jan. 18, 2015
@@ -13,7 +13,9 @@ COPTS=-Wall -g -c  -O0 -std=c++11
 OBJS=main.o \
 	 langlex.o \
 	 langparse.o \
-	 cVisitor.o
+	 cVisitor.o \
+	 cSymbolTable.o \
+	 cBaseTypeNode.o 
 
 all: lang
 
@@ -32,7 +34,7 @@ clean:
 .c.o:
 	g++ $(COPTS) $< -o $@
 
-main.o: main.cpp langparse.cpp langlex.cpp 
+main.o: main.cpp langparse.cpp langlex.cpp
 	g++ $(COPTS) main.cpp -o $@
 
 ## added -Wno-deprecated-register to remove register warning errors when building on my local machine
@@ -47,4 +49,3 @@ langparse.cpp: lang.y
 
 lang: $(OBJS)
 	g++ $(OBJS) -o lang
-

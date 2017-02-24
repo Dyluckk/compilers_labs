@@ -19,30 +19,16 @@
 class cBaseTypeNode : public cDeclNode
 {
     public:
-      cBaseTypeNode(string name, int size, bool isFloat ) : cDeclNode()
-      {
-          m_name = name;
-          m_size = size;
-          m_isFloat = isFloat;
-      }
-
+      cBaseTypeNode(string name, int size, bool isFloat );
       //override GetName Virtual function from cDeclNode
-      virtual cSymbol* GetName()
-      {
-        return static_cast<cSymbol* >(GetChild(1));
-      }
+      virtual cSymbol* GetName();
       //override GetType Virtual function from cDeclNode
-      virtual cDeclNode* GetType()
-      {
-        return (static_cast<cSymbol* >(GetChild(0)))->GetDecl();
-      }
-
-      virtual bool IsType() { return true; }
-      virtual string NodeType() { return string("base_node"); }
-      virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+      virtual cDeclNode* GetType();
+      virtual bool IsType();
+      virtual string NodeType();
+      virtual void Visit(cVisitor *visitor);
     protected:
       string m_name;
       int m_size;
       bool m_isFloat;
-
 };

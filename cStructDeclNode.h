@@ -30,8 +30,8 @@ class cStructDeclNode : public cDeclNode
           }
           else
           {
-            g_SymbolTable.Insert(name);
-            name->SetDecl(this);
+              g_SymbolTable.Insert(name);
+              name->SetDecl(this);
           }
 
           AddChild(name);
@@ -55,4 +55,6 @@ class cStructDeclNode : public cDeclNode
 
         virtual string NodeType() { return string("struct_decl"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+        virtual bool IsStruct() { return true; }
+        virtual bool IsType() { return true; }
 };
