@@ -18,36 +18,74 @@
 #include "cStmtsNode.h"
 #include "cParamsNode.h"
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
+
 class cFuncDeclNode : public cDeclNode
 {
     public:
-        cFuncDeclNode(cSymbol * type, cSymbol * name)
+        cFuncDeclNode(cSymbol* type, cSymbol* name) : cDeclNode()
         {
-            if(g_SymbolTable.Find(name->GetName()))
-            {
-                if(g_SymbolTable.FindLocal(name->GetName()))
-		{
-			//semantic error call
-		}
-		
-		name = new cSymbol(name->GetName());
-		g_SymbolTable.Insert(name);
-		name->SetDecl(this);
-            }
-	    else
-	    {
-		g_SymbolTable.Insert(name);
-		name->SetDecl(this);
-	    }
+            m_name = name;
+            m_returnType = type;
+            m_params = nullptr;
+            m_other = nullptr;
+            m_isDefined = false;
 
-            //g_SymbolTable.Insert(name);
+            //find another symbol in the table with the same name
+            //because we want to make sure it doesn't exist within the same scope
+            cSymbol* otherSymbol = g_SymbolTable.FindLocal(name->GetName());
+
+            if (otherSymbol != nullptr)
+            {
+              //check if the found otherSymbol is a FuncDecl
+              if(otherSymbol->GetDecl()->IsFunc())
+              {
+                cFuncDeclNode *otherFunc = dynamic_cast<cFuncDeclNode *>(otherSymbol->GetDecl());
+                m_other = otherFunc;
+                cout << GetType() << endl;
+                //check if the declared type is different
+                if(otherFunc->GetType() != GetType())
+                {
+                  SemanticError(name->GetName() + " previously defined with different return type");
+                }
+                else if(otherFunc->isDefined() == false) // ?
+                {
+                  name->SetDecl(this);
+                }
+              }
+              else // symbol is found, but is not declared as a function
+              {
+                SemanticError(name->GetName() + " previously defined as other than a function");
+              }
+            }
+            else
+            {
+                // symbol is found, but outside of the scope
+                if(g_SymbolTable.Find(name->GetName()))
+                {
+                  name = new cSymbol(name->GetName());
+                }
+
+                g_SymbolTable.Insert(name);
+                name->SetDecl(this);
+            }
 
             AddChild(type);
             AddChild(name);
         }
 
-        void Insert(cAstNode * astNodeChild){
+        void Insert(cAstNode * astNodeChild)
+        {
             AddChild(astNodeChild);
+        }
+
+        // Return back whether this declaration includes statements or not
+        bool isDefined()
+        {
+          return m_isDefined;
         }
 
         //override GetName Virtual function from cDeclNode
@@ -64,4 +102,11 @@ class cFuncDeclNode : public cDeclNode
         virtual bool IsFunc()   { return true; }
         virtual string NodeType() { return string("func"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+
+    private:
+      cSymbol* m_name;
+      cSymbol* m_returnType;
+      cParamsNode* m_params;
+      cFuncDeclNode* m_other;
+      bool m_isDefined;
 };

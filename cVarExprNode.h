@@ -1,4 +1,5 @@
-//**************************************
+// **************************************
+
 // cVarDeclNode.h
 //
 // Defines an AST node for an variable declerations
@@ -16,19 +17,25 @@
 #include "cDeclNode.h"
 #include "cExprNode.h"
 
-class cVarExprNode : public cExprNode
-{
-    public:
-        cVarExprNode(cSymbol * val) : cExprNode()
-        {
-            AddChild(val);
-        }
+class cVarExprNode : public cExprNode {
+  public:
+    cVarExprNode(cSymbol *val) : cExprNode()
+    {
+      AddChild(val);
+    }
 
-        virtual string NodeType() { return string("varref"); }
-        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+    virtual string NodeType()
+    {
+      return string("varref");
+    }
 
-        void Insert(cSymbol * var)
-        {
-            AddChild(var);
-        }
+    virtual void Visit(cVisitor *visitor)
+    {
+      visitor->Visit(this);
+    }
+
+    void Insert(cSymbol *var)
+    {
+      AddChild(var);
+    }
 };
