@@ -46,6 +46,7 @@ public:
         // check if the type is different
         if (otherFunc->GetType() != this->GetType())
         {
+          // SemanticError thrown due to different return types
           SemanticError(name->GetName() + " previously defined with different return type");
         }
         else if (otherFunc->isDefined() == false)
@@ -55,6 +56,8 @@ public:
       }
       else // symbol is found, but is not declared as a function
       {
+        // SemanticError thrown due to symbol being define as non cFuncDecl
+        // within current scope
         SemanticError(name->GetName() + " previously defined as other than a function");
       }
     }
@@ -77,17 +80,41 @@ public:
   // used to insert parameters
   void InsertParams(cParamsNode *params)
   {
-    // check if m_other has parameters and params is not nullptr
+    // check if m_other exists and has parameters and params is not nullptr
     // proceed to check for semantic errors
-    if (m_other && (m_other->GetParams() != nullptr) && (params != nullptr))
+    if ((m_other != nullptr) && (m_other->GetParams() != nullptr) && (params != nullptr))
     {
       // check to see if function has the same number of parameters
       if (m_other->GetParams()->NumChildren() != params->NumChildren())
       {
+        // SemanticError thrown due to different number of parameters
         SemanticError(m_name->GetName() + " previously declared with a different number of parameters");
       }
-    }
+      else // check if parameters are the same
+      {
+        bool isDifferent = false;
 
+        for (int i = 0; (i < params->NumChildren()) && (isDifferent == false); i++)
+        {
+          // get child of parameters @ index i
+          cDeclNode *child = dynamic_cast<cDeclNode *>(params->GetChild(i));
+
+          // get child of other functions paramater child @ index i
+          cDeclNode *otherChild = dynamic_cast<cDeclNode *>(m_other->GetParams()->GetChild(i));
+
+          // compare parameter types
+          if (child->GetType() != otherChild->GetType())
+          {
+            isDifferent = true;
+          }
+        }
+
+        // SemanticError thrown due to different types
+        if (isDifferent == true) {
+          SemanticError(m_name->GetName() + " previously declared with different parameters");
+        }
+      }
+    }
 
     AddChild(params);
     m_params = params;
