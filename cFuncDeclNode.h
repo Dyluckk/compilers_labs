@@ -47,7 +47,7 @@ public:
         if (otherFunc->GetType() != this->GetType())
         {
           // SemanticError thrown due to different return types
-          SemanticError(name->GetName() + " previously defined with different return type");
+          SemanticError(name->GetName() + " previously declared with different return type");
         }
         else if (otherFunc->isDefined() == false)
         {
@@ -58,7 +58,7 @@ public:
       {
         // SemanticError thrown due to symbol being define as non cFuncDecl
         // within current scope
-        SemanticError(name->GetName() + " previously defined as other than a function");
+        SemanticError(name->GetName() + " previously declared as other than a function");
       }
     }
     else
