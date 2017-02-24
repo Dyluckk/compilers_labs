@@ -1,4 +1,5 @@
-//**************************************
+// **************************************
+
 // cIntExprNode.h
 //
 // Defines an AST node for an integer constant (literals).
@@ -16,21 +17,33 @@
 #include "cAstNode.h"
 #include "cExprNode.h"
 
-class cIntExprNode : public cExprNode
-{
-    public:
-        cIntExprNode(int value) : cExprNode()
-        {
-            m_value = value;
-        }
+class cIntExprNode : public cExprNode {
+public:
 
-        virtual string AttributesToString()
-        {
-            return " value=\"" + std::to_string(m_value) + "\"";
-        }
-        virtual string NodeType() { return string("int"); }
-        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+  cIntExprNode(int value) : cExprNode()
+  {
+    m_value = value;
+  }
 
-    protected:
-        int m_value;        // value of integer constant (literal)
+  virtual cDeclNode* GetType()
+  {
+    return g_SymbolTable.Find("int")->GetDecl();
+  }
+
+  virtual string AttributesToString()
+  {
+    return " value=\"" + std::to_string(m_value) + "\"";
+  }
+
+  virtual string NodeType() {
+    return string("int");
+  }
+
+  virtual void Visit(cVisitor *visitor) {
+    visitor->Visit(this);
+  }
+
+protected:
+
+  int m_value; // value of integer constant (literal)
 };

@@ -3,10 +3,10 @@
 //
 // Main function for lang compiler
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
-// Date: Jan. 18, 2015
+// Date: Jan. 18, 2016
 //
 
 #include <stdio.h>
@@ -17,6 +17,7 @@
 #include "lex.h"
 #include "astnodes.h"
 #include "langparse.h"
+#include "cSemantics.h"
 
 // define global variables
 cSymbolTable g_SymbolTable;
@@ -26,6 +27,8 @@ long long cSymbol::nextId;
 int main(int argc, char **argv)
 {
     std::cout << "Zachary Wentworth" << std::endl;
+
+    cSemantics semantics;
 
     const char *outfile_name;
     int result = 0;
@@ -58,14 +61,22 @@ int main(int argc, char **argv)
     // fixup cout so it redirects to output
     std::cout.rdbuf(output.rdbuf());
 
+    // removed for lab 5b
+    // g_SymbolTable.InitRootTable();
+
     result = yyparse();
     if (yyast_root != nullptr)
     {
+        semantics.VisitAllNodes(yyast_root);
+
+        result += semantics.GetNumErrors();
         if (result == 0)
         {
             output << yyast_root->ToString() << std::endl;
-        } else {
-            output << yynerrs << " Errors in compile\n";
+        }
+        else
+        {
+            output << yynerrs + semantics.GetNumErrors() << " Errors in compile\n";
         }
     }
 

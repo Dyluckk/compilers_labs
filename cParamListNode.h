@@ -13,13 +13,12 @@
 #pragma once
 
 #include "cAstNode.h"
-#include "cExprNode.h"
 #include "cSymbol.h"
 
-class cParamListNode : public cExprNode
+class cParamListNode : public cAstNode
 {
     public:
-        cParamListNode(cExprNode * multiple) : cExprNode()
+        cParamListNode(cExprNode * multiple) : cAstNode()
         {
             AddChild(multiple);
         }

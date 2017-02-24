@@ -131,6 +131,7 @@ array_decl: ARRAY TYPE_ID '[' INT_VAL ']' IDENTIFIER
 func_decl:  func_header ';'
                                 {
                                   $1->InsertDecls(nullptr);
+                                  $1->InsertStmts(nullptr);
                                   $$ = $1;
                                   g_SymbolTable.DecreaseScope();
                                 }

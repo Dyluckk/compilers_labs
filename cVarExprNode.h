@@ -25,6 +25,11 @@ public:
     AddChild(val);
   }
 
+  virtual cDeclNode* GetType()
+  {
+    return nullptr;
+  }
+
   virtual string NodeType()
   {
     return string("varref");

@@ -1,5 +1,4 @@
 // **************************************
-
 // cVarDeclNode.h
 //
 // Defines an AST node for an variable declerations
@@ -22,24 +21,22 @@ public:
 
   cVarDeclNode(cSymbol *type, cSymbol *name) : cDeclNode()
   {
-    AddChild(type);
-
-    if (g_SymbolTable.Find(name->GetName()))
+    if (g_SymbolTable.FindLocal(name->GetName()))
     {
-      if (g_SymbolTable.FindLocal(name->GetName()))
-      {
-        SemanticError("Symbol " + name->GetName() + " already defined in current scope");
-      }
-
-      name = new cSymbol(name->GetName());
-      g_SymbolTable.Insert(name);
-      name->SetDecl(this);
+      SemanticError("Symbol " + name->GetName() + " already defined in current scope");
     }
     else
     {
-      g_SymbolTable.Insert(name);
+      // create a new symbol for the inner scope if exists somewhere outside of the scope
+      if (g_SymbolTable.Find(name->GetName()))
+      {
+        name = new cSymbol(name->GetName());
+      }
+
       name->SetDecl(this);
+      g_SymbolTable.Insert(name);
     }
+    AddChild(type);
     AddChild(name);
   }
 

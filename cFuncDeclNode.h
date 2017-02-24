@@ -26,10 +26,9 @@ public:
   {
     m_name       = name;
     m_returnType = type;
-
-    // m_params = nullptr;
-    m_other     = nullptr;
-    m_isDefined = false;
+    m_params     = nullptr;
+    m_other      = nullptr;
+    m_isDefined  = false;
 
     // find another symbol in the table with the same name
     // because we want to make sure it doesn't exist within the same scope
@@ -137,9 +136,10 @@ public:
       SemanticError(m_name->GetName() + " already has a definition");
     }
     //check if stmts were passed, set function as defined
-    else if ((stmts != nullptr))
+    else if (stmts != nullptr)
     {
       m_isDefined = true;
+      //set corresponding symbols to this decl?
     }
 
     AddChild(stmts);
