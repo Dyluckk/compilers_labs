@@ -1,0 +1,3 @@
+ERROR: foo previously defined with different return type on line 3
+ERROR: aa previously defined as other than a function on line 12
+2 Errors in compile

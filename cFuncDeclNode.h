@@ -18,10 +18,7 @@
 #include "cStmtsNode.h"
 #include "cParamsNode.h"
 
-#include <iostream>
-using std::cout;
-using std::endl;
-
+#include <string>
 
 class cFuncDeclNode : public cDeclNode
 {
@@ -30,7 +27,7 @@ class cFuncDeclNode : public cDeclNode
         {
             m_name = name;
             m_returnType = type;
-            m_params = nullptr;
+            // m_params = nullptr;
             m_other = nullptr;
             m_isDefined = false;
 
@@ -43,11 +40,11 @@ class cFuncDeclNode : public cDeclNode
               //check if the found otherSymbol is a FuncDecl
               if(otherSymbol->GetDecl()->IsFunc())
               {
-                cFuncDeclNode *otherFunc = dynamic_cast<cFuncDeclNode *>(otherSymbol->GetDecl());
+                cFuncDeclNode *otherFunc = dynamic_cast<cFuncDeclNode*>(otherSymbol->GetDecl());
                 m_other = otherFunc;
-                cout << GetType() << endl;
-                //check if the declared type is different
-                if(otherFunc->GetType() != GetType())
+
+                //check if the type is different
+                if(otherFunc->GetType() != this->GetType())
                 {
                   SemanticError(name->GetName() + " previously defined with different return type");
                 }
@@ -96,7 +93,7 @@ class cFuncDeclNode : public cDeclNode
         //override GetType Virtual function from cDeclNode
         virtual cDeclNode* GetType()
         {
-          return (static_cast<cSymbol* >(GetChild(0)))->GetDecl();
+          return m_returnType->GetDecl();
         }
 
         virtual bool IsFunc()   { return true; }
@@ -106,7 +103,7 @@ class cFuncDeclNode : public cDeclNode
     private:
       cSymbol* m_name;
       cSymbol* m_returnType;
-      cParamsNode* m_params;
+      // cParamsNode* m_params;
       cFuncDeclNode* m_other;
       bool m_isDefined;
 };
