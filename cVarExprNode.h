@@ -18,24 +18,25 @@
 #include "cExprNode.h"
 
 class cVarExprNode : public cExprNode {
-  public:
-    cVarExprNode(cSymbol *val) : cExprNode()
-    {
-      AddChild(val);
-    }
+public:
 
-    virtual string NodeType()
-    {
-      return string("varref");
-    }
+  cVarExprNode(cSymbol *val) : cExprNode()
+  {
+    AddChild(val);
+  }
 
-    virtual void Visit(cVisitor *visitor)
-    {
-      visitor->Visit(this);
-    }
+  virtual string NodeType()
+  {
+    return string("varref");
+  }
 
-    void Insert(cSymbol *var)
-    {
-      AddChild(var);
-    }
+  virtual void Visit(cVisitor *visitor)
+  {
+    visitor->Visit(this);
+  }
+
+  void Insert(cSymbol *var)
+  {
+    AddChild(var);
+  }
 };
