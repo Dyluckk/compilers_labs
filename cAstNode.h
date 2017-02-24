@@ -4,7 +4,7 @@
 //
 // pure virtual base class for all AST nodes
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
 // Date: Jan. 7, 2016
@@ -16,6 +16,8 @@ using std::string;
 using std::vector;
 
 #include "cVisitor.h"
+
+void SemanticError(string error);
 
 class cAstNode
 {
@@ -49,7 +51,7 @@ class cAstNode
         }
 
         // return a string representation of the node
-        string ToString() 
+        string ToString()
         {
             string result("");
 
@@ -66,7 +68,7 @@ class cAstNode
                 }
             }
 
-            if (HasChildren()) 
+            if (HasChildren())
                 result += "</" + NodeType() + ">\n";
             else
                 result += "/>";
@@ -82,4 +84,3 @@ class cAstNode
         vector<cAstNode *> m_children;     // list of statements
 
 };
-

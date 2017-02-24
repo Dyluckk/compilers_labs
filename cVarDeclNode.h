@@ -24,19 +24,19 @@ class cVarDeclNode : public cDeclNode
             AddChild(type);
 
             if (g_SymbolTable.Find(name->GetName())){
-		if(g_SymbolTable.FindLocal(name->GetName()))
-		{
-			SemanticError("Symbol " + name->GetName() + " already defined in current scope");
-		}
-                name = new cSymbol(name->GetName());
-		g_SymbolTable.Insert(name);
-		name->SetDecl(this);
-            }
-	    else
-	    {
-		g_SymbolTable.Insert(name);
-		name->SetDecl(this);
-	    }
+		            if(g_SymbolTable.FindLocal(name->GetName()))
+		            {
+			               SemanticError("Symbol " + name->GetName() + " already defined in current scope");
+		            }
+                      name = new cSymbol(name->GetName());
+                      g_SymbolTable.Insert(name);
+		                  name->SetDecl(this);
+                }
+	              else
+	              {
+		                  g_SymbolTable.Insert(name);
+		                  name->SetDecl(this);
+	              }
 
             //g_SymbolTable.Insert(name);
             AddChild(name);
