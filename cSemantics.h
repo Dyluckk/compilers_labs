@@ -19,6 +19,15 @@ class cSemantics : cVisitor {
       return m_numErrors;
     }
 
+    void Visit(cVarExprNode* node)
+    {
+      if(node->GetName()->GetDecl() == nullptr)
+      {
+        SemanticError(node, "Symbol " + node->GetName()->GetName() + " is not defined");
+      }
+    }
+
+
   protected:
     int m_numErrors;
 };

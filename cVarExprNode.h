@@ -25,6 +25,11 @@ public:
     AddChild(val);
   }
 
+  virtual cSymbol* GetName()
+  {
+    return static_cast<cSymbol *>(GetChild(0));
+  }
+
   virtual cDeclNode* GetType()
   {
     return nullptr;
