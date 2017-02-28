@@ -32,7 +32,19 @@ public:
 
   virtual cDeclNode* GetType()
   {
-    return nullptr;
+    cDeclNode *decl = GetName()->GetDecl();
+    cDeclNode *node = nullptr;
+
+    for (int i = 0; i < (this->NumChildren() - 1); i++)
+    {
+      if(decl == nullptr)
+      {
+        return nullptr;
+      }
+      decl = decl->GetType()->GetName()->GetDecl();
+    }
+    node = decl->GetType();
+    return node;
   }
 
   virtual string NodeType()

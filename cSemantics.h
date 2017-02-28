@@ -40,19 +40,19 @@ public:
     {
       if (node->GetLHS()->GetType()->IsInt() != node->GetRHS()->GetType()->IsInt())
       {
-        // SemanticError(node, "Cannot assign " + node->GetLHS()->GetName()->GetName() + " to " + node->GetRHS()->GetName()->GetName());
+        SemanticError(node, "Cannot assign " + node->GetLHS()->GetName()->GetName() + " to " + node->GetRHS()->GetName()->GetName());
         return;
       }
 
       if (node->GetLHS()->GetType()->IsFloat() != node->GetRHS()->GetType()->IsFloat())
       {
-        // SemanticError(node, "Cannot assign " + node->GetLHS()->GetName()->GetName() + " to ");
+        SemanticError(node, "Cannot assign " + node->GetLHS()->GetName()->GetName() + " to ");
         return;
       }
 
       if (node->GetLHS()->GetType()->IsChar() != !node->GetRHS()->GetType()->IsChar())
       {
-        // SemanticError(node, "Cannot assign " + node->GetLHS()->GetName()->GetName() + " to ");
+        SemanticError(node, "Cannot assign " + node->GetLHS()->GetName()->GetName() + " to ");
         return;
       }
     }
