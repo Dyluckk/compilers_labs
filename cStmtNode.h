@@ -1,4 +1,5 @@
-//**************************************
+// **************************************
+
 // cStmtNode.h
 //
 // Defines abstract class for a single statment
@@ -14,8 +15,8 @@
 
 #include "cAstNode.h"
 
-class cStmtNode : public cAstNode
-{
-    public:
-        cStmtNode() : cAstNode() {}
+class cStmtNode : public cAstNode {
+public:
+
+  cStmtNode() : cAstNode() {}
 };

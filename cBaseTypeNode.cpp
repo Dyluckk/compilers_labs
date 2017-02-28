@@ -1,3 +1,14 @@
+// **************************************
+
+// cBaseTypeNode.cpp
+//
+// Definitions for cBaseTypeNode
+//
+// Author: Zachary Wentworth
+// zachary.wentworth@oit.edu
+//
+// Date: Feb. 25, 2017
+//
 #include "cBaseTypeNode.h"
 #include "cSymbolTable.h"
 

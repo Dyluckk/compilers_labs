@@ -1,4 +1,5 @@
-//**************************************
+// **************************************
+
 // cBlockNode.h
 //
 // Defines AST node for a block of code (stuff inside {})
@@ -18,16 +19,21 @@
 #include "cStmtNode.h"
 #include "cStmtsNode.h"
 
-class cBlockNode : public cStmtNode
-{
-    public:
-        // params are the decls and statements contained in the block
-        cBlockNode(cDeclsNode *decls, cStmtsNode *statements) : cStmtNode()
-        {
-            AddChild(decls);
-            AddChild(statements);
-        }
+class cBlockNode : public cStmtNode {
+public:
 
-        virtual string NodeType() { return string("block"); }
-        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+  // params are the decls and statements contained in the block
+  cBlockNode(cDeclsNode *decls, cStmtsNode *statements) : cStmtNode()
+  {
+    AddChild(decls);
+    AddChild(statements);
+  }
+
+  virtual string NodeType() {
+    return string("block");
+  }
+
+  virtual void Visit(cVisitor *visitor) {
+    visitor->Visit(this);
+  }
 };

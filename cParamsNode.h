@@ -1,4 +1,5 @@
-//**************************************
+// **************************************
+
 // cVarDeclNode.h
 //
 // Defines cParamasNode
@@ -16,40 +17,49 @@
 #include "cDeclNode.h"
 #include "cSymbol.h"
 
-class cParamsNode : public cDeclNode
-{
-    public:
-        // param is the value of the integer constant
-        cParamsNode(cDeclNode * multiple ) : cDeclNode()
-        {
-            AddChild(multiple);
-        }
+class cParamsNode : public cDeclNode {
+public:
 
-        void Insert(cDeclNode * child){
-            AddChild(child);
-        }
+  // param is the value of the integer constant
+  cParamsNode(cDeclNode *multiple) : cDeclNode()
+  {
+    AddChild(multiple);
+  }
 
-        int GetNumParams()
-        {
-          return this->NumChildren();
-        }
+  void Insert(cDeclNode *child)
+  {
+    AddChild(child);
+  }
 
-        cVarDeclNode* GetParam(int num)
-        {
-            return static_cast<cVarDeclNode *>(GetChild(num));
-        }
+  int GetNumParams()
+  {
+    return this->NumChildren();
+  }
 
-        //override GetName Virtual function from cDeclNode
-        virtual cSymbol* GetName()
-        {
-          return static_cast<cSymbol* >(GetChild(1));
-        }
-        //override GetType Virtual function from cDeclNode
-        virtual cDeclNode* GetType()
-        {
-          return (static_cast<cSymbol* >(GetChild(0)))->GetDecl();
-        }
+  cVarDeclNode* GetParam(int num)
+  {
+    return static_cast<cVarDeclNode *>(GetChild(num));
+  }
 
-        virtual string NodeType() { return string("args"); }
-        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+  // override GetName Virtual function from cDeclNode
+  virtual cSymbol* GetName()
+  {
+    return static_cast<cSymbol *>(GetChild(1));
+  }
+
+  // override GetType Virtual function from cDeclNode
+  virtual cDeclNode* GetType()
+  {
+    return (static_cast<cSymbol *>(GetChild(0)))->GetDecl();
+  }
+
+  virtual string NodeType()
+  {
+    return string("args");
+  }
+
+  virtual void Visit(cVisitor *visitor)
+  {
+    visitor->Visit(this);
+  }
 };

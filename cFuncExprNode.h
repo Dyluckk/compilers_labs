@@ -25,7 +25,6 @@ public:
 
   cFuncExprNode(cSymbol *type, cParamListNode *name) : cExprNode(), m_funcDecl(type->GetDecl())
   {
-    // m_funcDecl = type->GetDecl();
     AddChild(type);
     AddChild(name);
   }
@@ -41,12 +40,12 @@ public:
 
   cParamListNode* GetParams()
   {
-    return static_cast<cParamListNode*>(GetChild(1));
+    return static_cast<cParamListNode *>(GetChild(1));
   }
 
   cFuncDeclNode* GetFuncDecl()
   {
-    return static_cast<cFuncDeclNode*>(GetName()->GetDecl());
+    return static_cast<cFuncDeclNode *>(GetName()->GetDecl());
   }
 
   virtual cSymbol* GetName()
@@ -64,5 +63,5 @@ public:
 
 protected:
 
-  cDeclNode* m_funcDecl;
+  cDeclNode *m_funcDecl;
 };

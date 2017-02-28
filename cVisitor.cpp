@@ -4,25 +4,26 @@
 
 void cVisitor::PreVisitAllNodes(cAstNode *node)
 {
-    VisitAllChildren(node);
+  VisitAllChildren(node);
 
-    node->Visit(this);
+  node->Visit(this);
 }
 
 void cVisitor::PostVisitAllNodes(cAstNode *node)
 {
-    node->Visit(this);
+  node->Visit(this);
 
-    VisitAllChildren(node);
+  VisitAllChildren(node);
 }
 
 void cVisitor::VisitAllChildren(cAstNode *node)
 {
-    cAstNode::iterator it;
-    for (it=node->FirstChild(); it!=node->LastChild(); it++)
-    {
-        if ((*it) != nullptr) (*it)->Visit(this);
-    }
+  cAstNode::iterator it;
+
+  for (it = node->FirstChild(); it != node->LastChild(); it++)
+  {
+    if ((*it) != nullptr) (*it)->Visit(this);
+  }
 }
 
 void cVisitor::Visit(cAstNode *node)          { VisitAllChildren(node); }

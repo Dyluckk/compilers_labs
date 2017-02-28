@@ -1,38 +1,44 @@
-//**************************************
+// **************************************
+
 // cBaseTypeNode.h
 //
-// Defines an AST node for an binary expressions.
+// Defines the base type node
 //
-// Inherits from cExprNode so that binary expressions can be used in those type of
-// expressions
+// Inherits from cDeclNode
 //
 // Author: Zachary Wentworth
 // zachary.wentworth@oit.edu
 //
-// Date: Feb. 9, 2017
+// Date: Feb. 25, 2017
 //
 #pragma once
 
 #include "cAstNode.h"
 #include "cDeclNode.h"
 
-class cBaseTypeNode : public cDeclNode
-{
-    public:
-      cBaseTypeNode(string name, int size, bool isFloat );
-      //override GetName Virtual function from cDeclNode
-      virtual cSymbol* GetName();
-      //override GetType Virtual function from cDeclNode
-      virtual cDeclNode* GetType();
-      virtual bool IsType();
-      virtual bool IsInt();
-      virtual bool IsChar();
-      virtual bool IsFloat();
+class cBaseTypeNode : public cDeclNode {
+public:
 
-      virtual string NodeType();
-      virtual void Visit(cVisitor *visitor);
-    protected:
-      string m_name;
-      int m_size;
-      bool m_isFloat;
+  cBaseTypeNode(string name,
+                int    size,
+                bool   isFloat);
+
+  // override GetName Virtual function from cDeclNode
+  virtual cSymbol  * GetName();
+
+  // override GetType Virtual function from cDeclNode
+  virtual cDeclNode* GetType();
+  virtual bool       IsType();
+  virtual bool       IsInt();
+  virtual bool       IsChar();
+  virtual bool       IsFloat();
+
+  virtual string     NodeType();
+  virtual void       Visit(cVisitor *visitor);
+
+protected:
+
+  string m_name;
+  int m_size;
+  bool m_isFloat;
 };

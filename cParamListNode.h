@@ -1,4 +1,5 @@
-//**************************************
+// **************************************
+
 // cParamListNode.h
 //
 // Defines an AST node for param lists
@@ -15,28 +16,36 @@
 #include "cAstNode.h"
 #include "cSymbol.h"
 
-class cParamListNode : public cAstNode
-{
-    public:
-        cParamListNode(cExprNode * multiple) : cAstNode()
-        {
-            AddChild(multiple);
-        }
+class cParamListNode : public cAstNode {
+public:
 
-        void Insert(cExprNode * child){
-            AddChild(child);
-        }
+  cParamListNode(cExprNode *multiple) : cAstNode()
+  {
+    AddChild(multiple);
+  }
 
-        cExprNode* GetExpr(int num)
-        {
-           return static_cast<cExprNode *>(GetChild(num));
-        }
+  void Insert(cExprNode *child)
+  {
+    AddChild(child);
+  }
 
-        int GetNumParams()
-        {
-          return this->NumChildren();
-        }
+  cExprNode* GetExpr(int num)
+  {
+    return static_cast<cExprNode *>(GetChild(num));
+  }
 
-        virtual string NodeType() { return string("params"); }
-        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+  int GetNumParams()
+  {
+    return this->NumChildren();
+  }
+
+  virtual string NodeType()
+  {
+    return string("params");
+  }
+
+  virtual void Visit(cVisitor *visitor)
+  {
+    visitor->Visit(this);
+  }
 };

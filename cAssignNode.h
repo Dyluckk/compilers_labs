@@ -1,4 +1,5 @@
-//**************************************
+// **************************************
+
 // cAssignNode.h
 //
 // Defines an AST node for assignments
@@ -16,33 +17,37 @@
 #include "cStmtNode.h"
 #include "cVarExprNode.h"
 
-class cAssignNode : public cStmtNode
-{
-    public:
-        cAssignNode( cVarExprNode * varExpr, cExprNode * expr ) : cStmtNode()
-        {
-            AddChild(varExpr);
-            AddChild(expr);
-        }
+class cAssignNode : public cStmtNode {
+public:
 
-        //get LHS
-        cVarExprNode * GetLHS()
-        {
-          return static_cast<cVarExprNode*>(GetChild(0));
-        }
+  cAssignNode(cVarExprNode *varExpr, cExprNode *expr) : cStmtNode()
+  {
+    AddChild(varExpr);
+    AddChild(expr);
+  }
 
-        //get RHS
-        cExprNode * GetRHS()
-        {
-          return static_cast<cExprNode*>(GetChild(1));
-        }
+  // get LHS
+  cVarExprNode* GetLHS()
+  {
+    return static_cast<cVarExprNode *>(GetChild(0));
+  }
 
-        virtual cSymbol* GetName()
-        {
-          return static_cast<cSymbol *>(GetChild(0));
-        }
+  // get RHS
+  cExprNode* GetRHS()
+  {
+    return static_cast<cExprNode *>(GetChild(1));
+  }
 
-        virtual string NodeType() { return string("assign"); }
-        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+  virtual cSymbol* GetName()
+  {
+    return static_cast<cSymbol *>(GetChild(0));
+  }
 
+  virtual string NodeType() {
+    return string("assign");
+  }
+
+  virtual void Visit(cVisitor *visitor) {
+    visitor->Visit(this);
+  }
 };

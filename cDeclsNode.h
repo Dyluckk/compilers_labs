@@ -1,4 +1,5 @@
-//**************************************
+// **************************************
+
 // cDeclsNode.h
 //
 // Defines a class to represent a list of declarations.
@@ -14,21 +15,28 @@
 #include "cAstNode.h"
 #include "cDeclNode.h"
 
-class cDeclsNode : public cAstNode
-{
-    public:
-        // param is the first decl in this decls
-        cDeclsNode(cDeclNode *decl) : cAstNode()
-        {
-            AddChild(decl);
-        }
+class cDeclsNode : public cAstNode {
+public:
 
-        // Add a decl to the list
-        void Insert(cDeclNode *decl)
-        {
-            AddChild(decl);
-        }
+  // param is the first decl in this decls
+  cDeclsNode(cDeclNode *decl) : cAstNode()
+  {
+    AddChild(decl);
+  }
 
-        virtual string NodeType() { return string("decls"); }
-        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+  // Add a decl to the list
+  void Insert(cDeclNode *decl)
+  {
+    AddChild(decl);
+  }
+
+  virtual string NodeType()
+  {
+    return string("decls");
+  }
+
+  virtual void Visit(cVisitor *visitor)
+  {
+    visitor->Visit(this);
+  }
 };

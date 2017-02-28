@@ -1,4 +1,5 @@
 // **************************************
+
 // cVarDeclNode.h
 //
 // Defines an AST node for an variable declerations
@@ -27,7 +28,8 @@ public:
     }
     else
     {
-      // create a new symbol for the inner scope if exists somewhere outside of the scope
+      // create a new symbol for the inner scope if exists somewhere outside of
+      // the scope
       if (g_SymbolTable.Find(name->GetName()))
       {
         name = new cSymbol(name->GetName());
@@ -57,15 +59,18 @@ public:
     return (static_cast<cSymbol *>(GetChild(0)))->GetDecl();
   }
 
-  virtual string NodeType() {
+  virtual string NodeType()
+  {
     return string("var_decl");
   }
 
-  virtual void Visit(cVisitor *visitor) {
+  virtual void Visit(cVisitor *visitor)
+  {
     visitor->Visit(this);
   }
 
-  virtual bool IsVar() {
+  virtual bool IsVar()
+  {
     return true;
   }
 };

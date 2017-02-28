@@ -1,4 +1,5 @@
-//**************************************
+// **************************************
+
 // cExprNode.h
 //
 // Defines base class for all expressions
@@ -15,11 +16,9 @@
 
 #include "cStmtNode.h"
 
-class cExprNode : public cStmtNode
-{
-    public:
-        cExprNode() : cStmtNode() {}
-        virtual cDeclNode *GetType() = 0;
-        // virtual cDeclNode *GetName() = 0;
+class cExprNode : public cStmtNode {
+public:
 
+  cExprNode() : cStmtNode() {}
+  virtual cDeclNode* GetType() = 0;
 };

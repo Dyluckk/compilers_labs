@@ -22,18 +22,20 @@ public:
 
   cStructDeclNode(cDeclsNode *declsNode, cSymbol  *name) : cDeclNode()
   {
-    // TODO AUTO SEMANTIC ERROR
+    SemanticError("No Structs Allowed");
 
     AddChild(declsNode);
 
     if (g_SymbolTable.Find(name->GetName())) {
       name = new cSymbol(name->GetName());
       g_SymbolTable.Insert(name);
+
       // name->SetDecl(this);
     }
     else
     {
       g_SymbolTable.Insert(name);
+
       // name->SetDecl(this);
     }
 
@@ -57,19 +59,23 @@ public:
     return (static_cast<cSymbol *>(GetChild(0)))->GetDecl();
   }
 
-  virtual string NodeType() {
+  virtual string NodeType()
+  {
     return string("struct_decl");
   }
 
-  virtual void Visit(cVisitor *visitor) {
+  virtual void Visit(cVisitor *visitor)
+  {
     visitor->Visit(this);
   }
 
-  virtual bool IsStruct() {
+  virtual bool IsStruct()
+  {
     return true;
   }
 
-  virtual bool IsType() {
+  virtual bool IsType()
+  {
     return true;
   }
 };

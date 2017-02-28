@@ -1,4 +1,5 @@
-//**************************************
+// **************************************
+
 // cReturnNode.h
 //
 // Defines an AST node for returns
@@ -16,14 +17,21 @@
 #include "cStmtNode.h"
 #include "cExprNode.h"
 
-class cReturnNode : public cStmtNode
-{
-    public:
-        cReturnNode(cExprNode * expr) : cStmtNode()
-        {
-            AddChild(expr);
-        }
+class cReturnNode : public cStmtNode {
+public:
 
-        virtual string NodeType() { return string("return"); }
-        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+  cReturnNode(cExprNode *expr) : cStmtNode()
+  {
+    AddChild(expr);
+  }
+
+  virtual string NodeType()
+  {
+    return string("return");
+  }
+
+  virtual void Visit(cVisitor *visitor)
+  {
+    visitor->Visit(this);
+  }
 };

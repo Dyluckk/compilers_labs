@@ -14,11 +14,13 @@ public:
     std::cout << "ERROR: " << msg << "on line " << node->LineNumber() << "\n";
   }
 
-  void VisitAllNodes(cAstNode *node) {
+  void VisitAllNodes(cAstNode *node)
+  {
     node->Visit(this);
   }
 
-  int GetNumErrors() {
+  int GetNumErrors()
+  {
     return m_numErrors;
   }
 
@@ -33,26 +35,31 @@ public:
 
   void Visit(cAssignNode *node)
   {
-
     VisitAllChildren(node);
 
     if (!node->GetLHS()->HasError() && !node->GetRHS()->HasError())
     {
       if (node->GetLHS()->GetType()->IsInt() != node->GetRHS()->GetType()->IsInt())
       {
-        SemanticError(node, "Cannot assign " + node->GetLHS()->GetName()->GetName() + " to " + node->GetRHS()->GetName()->GetName());
+        SemanticError(node,
+                      "Cannot assign " + node->GetLHS()->GetType()->GetName()->GetName() + " to " + node->GetRHS()->GetType()->GetName()->GetName() +
+                      " ");
         return;
       }
 
       if (node->GetLHS()->GetType()->IsFloat() != node->GetRHS()->GetType()->IsFloat())
       {
-        SemanticError(node, "Cannot assign " + node->GetLHS()->GetName()->GetName() + " to ");
+        SemanticError(node,
+                      "Cannot assign " + node->GetLHS()->GetType()->GetName()->GetName() + " to " + node->GetRHS()->GetType()->GetName()->GetName() +
+                      " ");
         return;
       }
 
       if (node->GetLHS()->GetType()->IsChar() != !node->GetRHS()->GetType()->IsChar())
       {
-        SemanticError(node, "Cannot assign " + node->GetLHS()->GetName()->GetName() + " to ");
+        SemanticError(node,
+                      "Cannot assign " + node->GetLHS()->GetType()->GetName()->GetName() + " to " + node->GetRHS()->GetType()->GetName()->GetName() +
+                      " ");
         return;
       }
     }
@@ -113,8 +120,6 @@ public:
       }
     }
   }
-
-  // 1+ 5+ 6+ 7+ 8+ 4 3 2
 
 protected:
 

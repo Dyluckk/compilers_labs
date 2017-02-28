@@ -1,5 +1,6 @@
 #pragma once
-//**************************************
+
+// **************************************
 // cSymbol.h
 //
 // Defines class used to represent symbols.
@@ -18,46 +19,66 @@ using std::string;
 #include "cAstNode.h"
 #include "cDeclNode.h"
 
-class cSymbol : public cAstNode
-{
-    public:
-        // param is name of symbol
-        cSymbol(string name) : cAstNode()
-        {
-            m_id = ++nextId;        // get next available ID
-            m_name = name;
-            m_decl = nullptr;
-        }
+class cSymbol : public cAstNode {
+public:
 
-        // return name of symbol
-        string GetName() { return m_name; }
+  // param is name of symbol
+  cSymbol(string name) : cAstNode()
+  {
+    m_id   = ++nextId; // get next available ID
+    m_name = name;
+    m_decl = nullptr;
+  }
 
-        // Get/Set the decl associated with this symbol
-        cDeclNode *GetDecl() { return m_decl; }
-        void SetDecl(cDeclNode *decl) { m_decl = decl; }
+  // return name of symbol
+  string GetName()
+  {
+    return m_name;
+  }
 
-        // return attributes for ToString()
-        virtual string AttributesToString()
-        {
-            string result(" id=\"");
-            result += std::to_string(m_id) + "\"";
-            result += " name=\"" + m_name + "\"";
-            if (m_decl != nullptr)
-            {
-                result += " decl=\"" + std::to_string(m_decl->GetName()->m_id);
-                result +=  "\"";
-            }
-            return result;
-        }
+  // Get/Set the decl associated with this symbol
+  cDeclNode* GetDecl()
+  {
+    return m_decl;
+  }
 
-        // Node type for ToString()
-        virtual string NodeType() { return string("sym"); }
+  void SetDecl(cDeclNode *decl)
+  {
+    m_decl = decl;
+  }
 
-        // standard visitor
-        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
-    protected:
-        static long long nextId;        // Next avail symbol ID
-        long long m_id;                 // Unique ID for this symbol
-        string m_name;                  // name of symbol
-        cDeclNode *m_decl;              // declaration of this symbol
+  // return attributes for ToString()
+  virtual string AttributesToString()
+  {
+    string result(" id=\"");
+
+    result += std::to_string(m_id) + "\"";
+    result += " name=\"" + m_name + "\"";
+
+    if (m_decl != nullptr)
+    {
+      result += " decl=\"" + std::to_string(m_decl->GetName()->m_id);
+      result +=  "\"";
+    }
+    return result;
+  }
+
+  // Node type for ToString()
+  virtual string NodeType()
+  {
+    return string("sym");
+  }
+
+  // standard visitor
+  virtual void Visit(cVisitor *visitor)
+  {
+    visitor->Visit(this);
+  }
+
+protected:
+
+  static long long nextId; // Next avail symbol ID
+  long long m_id;          // Unique ID for this symbol
+  string m_name;           // name of symbol
+  cDeclNode *m_decl;       // declaration of this symbol
 };

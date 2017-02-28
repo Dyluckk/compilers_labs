@@ -1,4 +1,5 @@
-//**************************************
+// **************************************
+
 // cStmtsNode.h
 //
 // Defines AST node that represents a list of statements
@@ -13,21 +14,28 @@
 #include "cAstNode.h"
 #include "cStmtNode.h"
 
-class cStmtsNode : public cAstNode
-{
-    public:
-        // param is first stmt in the list of statements
-        cStmtsNode(cStmtNode *stmt) : cAstNode()
-        {
-            AddChild(stmt);
-        }
+class cStmtsNode : public cAstNode {
+public:
 
-        // Add a statement to the list
-        void Insert(cStmtNode *stmt)
-        {
-            AddChild(stmt);
-        }
+  // param is first stmt in the list of statements
+  cStmtsNode(cStmtNode *stmt) : cAstNode()
+  {
+    AddChild(stmt);
+  }
 
-        virtual string NodeType() { return string("stmts"); }
-        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+  // Add a statement to the list
+  void Insert(cStmtNode *stmt)
+  {
+    AddChild(stmt);
+  }
+
+  virtual string NodeType()
+  {
+    return string("stmts");
+  }
+
+  virtual void Visit(cVisitor *visitor)
+  {
+    visitor->Visit(this);
+  }
 };

@@ -1,4 +1,5 @@
-//**************************************
+// **************************************
+
 // cOpNode.h
 //
 // Class for an operator (e.g. + - etc.)
@@ -13,41 +14,51 @@
 #include "cAstNode.h"
 #include "langparse.h"
 
-class cOpNode : public cAstNode
-{
-    public:
-        cOpNode(int op) : cAstNode()
-        {
-            m_op = op;
-        }
+class cOpNode : public cAstNode {
+public:
 
-        virtual string NodeType()       { return "op"; }
-        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
-        virtual string AttributesToString()
-        {
-            string result(" value='");
+  cOpNode(int op) : cAstNode()
+  {
+    m_op = op;
+  }
 
-            switch (m_op)
-            {
-                case EQUALS:
-                    result += "==";
-                    break;
-                case OR:
-                    result += "||";
-                    break;
-                case AND:
-                    result += "&&";
-                    break;
-                default:
-                    result += (char)m_op;
-                    break;
-            }
+  virtual string NodeType()       {
+    return "op";
+  }
 
-            result += "'";
+  virtual void Visit(cVisitor *visitor) {
+    visitor->Visit(this);
+  }
 
-            return result;
-        }
+  virtual string AttributesToString()
+  {
+    string result(" value='");
 
-    protected:
-        int m_op;      // the operand
+    switch (m_op)
+    {
+    case EQUALS:
+      result += "==";
+      break;
+
+    case OR:
+      result += "||";
+      break;
+
+    case AND:
+      result += "&&";
+      break;
+
+    default:
+      result += (char)m_op;
+      break;
+    }
+
+    result += "'";
+
+    return result;
+  }
+
+protected:
+
+  int m_op; // the operand
 };

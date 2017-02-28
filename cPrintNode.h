@@ -1,4 +1,5 @@
-//**************************************
+// **************************************
+
 // cPrintNode.h
 //
 // Defines AST node for print statements
@@ -17,15 +18,22 @@
 #include "cStmtNode.h"
 #include "cExprNode.h"
 
-class cPrintNode : public cStmtNode
-{
-    public:
-        // param is the value to be printed
-        cPrintNode(cExprNode *expr) : cStmtNode()
-        {
-            AddChild(expr);
-        }
+class cPrintNode : public cStmtNode {
+public:
 
-        virtual string NodeType() { return string("print"); }
-        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+  // param is the value to be printed
+  cPrintNode(cExprNode *expr) : cStmtNode()
+  {
+    AddChild(expr);
+  }
+
+  virtual string NodeType()
+  {
+    return string("print");
+  }
+
+  virtual void Visit(cVisitor *visitor)
+  {
+    visitor->Visit(this);
+  }
 };

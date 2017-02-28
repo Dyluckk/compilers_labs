@@ -22,7 +22,7 @@
 class cFuncDeclNode : public cDeclNode {
 public:
 
-  cFuncDeclNode(cSymbol* type, cSymbol* name) : cDeclNode()
+  cFuncDeclNode(cSymbol *type, cSymbol *name) : cDeclNode()
   {
     m_name       = name;
     m_returnType = type;
@@ -77,7 +77,7 @@ public:
   }
 
   // used to insert parameters
-  void InsertParams(cParamsNode* params)
+  void InsertParams(cParamsNode *params)
   {
     // check if m_other exists and has parameters and params is not nullptr
     // proceed to check for semantic errors
@@ -120,26 +120,27 @@ public:
   }
 
   // Add local variable declarations to the list
-  void InsertDecls(cDeclsNode* decls)
+  void InsertDecls(cDeclsNode *decls)
   {
     AddChild(decls);
   }
 
   // Add the function statements to the list
-  void InsertStmts(cStmtsNode* stmts)
+  void InsertStmts(cStmtsNode *stmts)
   {
-    cFuncDeclNode* func = static_cast<cFuncDeclNode *>(m_name->GetDecl());
+    cFuncDeclNode *func = static_cast<cFuncDeclNode *>(m_name->GetDecl());
 
-    //check if stmts were passed, and check if the function has already been defined
+    // check if stmts were passed, and check if the function has already been
+    // defined
     if ((stmts != nullptr) && (func->isDefined() == true))
     {
       SemanticError(m_name->GetName() + " already has a definition");
     }
-    //check if stmts were passed, set function as defined
+
+    // check if stmts were passed, set function as defined
     else if (stmts != nullptr)
     {
       m_isDefined = true;
-      //set corresponding symbols to this decl?
     }
 
     AddChild(stmts);
