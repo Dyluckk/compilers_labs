@@ -25,6 +25,7 @@ class cFuncDeclNode;
 class cFuncExprNode;
 class cParamsNode;
 class cParamListNode;
+class cArrayDeclNode;
 
 class cVisitor
 {
@@ -58,6 +59,7 @@ class cVisitor
         virtual void Visit(cFuncExprNode *node);
         virtual void Visit(cParamsNode *node);
         virtual void Visit(cParamListNode *node);
+        virtual void Visit(cArrayDeclNode *node);
 
     protected:
         void PreVisitAllNodes(cAstNode *node);

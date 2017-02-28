@@ -25,6 +25,10 @@ class cBaseTypeNode : public cDeclNode
       //override GetType Virtual function from cDeclNode
       virtual cDeclNode* GetType();
       virtual bool IsType();
+      virtual bool IsInt();
+      virtual bool IsChar();
+      virtual bool IsFloat();
+
       virtual string NodeType();
       virtual void Visit(cVisitor *visitor);
     protected:

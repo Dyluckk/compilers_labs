@@ -35,12 +35,19 @@ public:
     return " value=\"" + std::to_string(m_value) + "\"";
   }
 
-  virtual string NodeType() {
+  virtual string NodeType()
+  {
     return string("int");
   }
 
-  virtual void Visit(cVisitor *visitor) {
+  virtual void Visit(cVisitor *visitor)
+  {
     visitor->Visit(this);
+  }
+
+  virtual bool IsInt()
+  {
+    return true;
   }
 
 protected:

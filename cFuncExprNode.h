@@ -1,4 +1,5 @@
-//**************************************
+// **************************************
+
 // cFuncExprNode.h
 //
 // Defines an AST node for function expressions
@@ -19,25 +20,49 @@
 #include "cStmtsNode.h"
 #include "cParamListNode.h"
 
-class cFuncExprNode : public cExprNode
-{
-    public:
-        cFuncExprNode(cSymbol * type, cParamListNode * name) : cExprNode()
-        {
-            AddChild(type);
-            AddChild(name);
-        }
+class cFuncExprNode : public cExprNode {
+public:
 
-    		void Insert(cParamListNode * list)
-    		{
-    			AddChild(list);
-    		}
+  cFuncExprNode(cSymbol *type, cParamListNode *name) : cExprNode(), m_funcDecl(type->GetDecl())
+  {
+    // m_funcDecl = type->GetDecl();
+    AddChild(type);
+    AddChild(name);
+  }
 
-        virtual cDeclNode* GetType()
-        {
-          return nullptr;
-        }
+  void Insert(cParamListNode *list)
+  {
+    AddChild(list);
+  }
 
-        virtual string NodeType() { return string("funcCall"); }
-        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+  virtual cDeclNode* GetType() {
+    return m_funcDecl->GetType();
+  }
+
+  cParamListNode* GetParams()
+  {
+    return static_cast<cParamListNode*>(GetChild(1));
+  }
+
+  cFuncDeclNode* GetFuncDecl()
+  {
+    return static_cast<cFuncDeclNode*>(GetName()->GetDecl());
+  }
+
+  virtual cSymbol* GetName()
+  {
+    return static_cast<cSymbol *>(GetChild(0));
+  }
+
+  virtual string NodeType() {
+    return string("funcCall");
+  }
+
+  virtual void Visit(cVisitor *visitor) {
+    visitor->Visit(this);
+  }
+
+protected:
+
+  cDeclNode* m_funcDecl;
 };

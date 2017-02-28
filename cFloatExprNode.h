@@ -44,6 +44,11 @@ class cFloatExprNode : public cExprNode {
       visitor->Visit(this);
     }
 
+    virtual bool IsFloat()
+    {
+      return true;
+    }
+    
   protected:
 
     double m_value; // value of float constant (literal)

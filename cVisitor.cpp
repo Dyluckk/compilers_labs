@@ -50,3 +50,4 @@ void cVisitor::Visit(cFuncDeclNode *node)     { VisitAllChildren(node); }
 void cVisitor::Visit(cFuncExprNode *node)     { VisitAllChildren(node); }
 void cVisitor::Visit(cParamsNode *node)       { VisitAllChildren(node); }
 void cVisitor::Visit(cParamListNode *node)    { VisitAllChildren(node); }
+void cVisitor::Visit(cArrayDeclNode *node)    { VisitAllChildren(node); }

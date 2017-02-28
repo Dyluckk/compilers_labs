@@ -29,6 +29,16 @@ class cParamsNode : public cDeclNode
             AddChild(child);
         }
 
+        int GetNumParams()
+        {
+          return this->NumChildren();
+        }
+
+        cVarDeclNode* GetParam(int num)
+        {
+            return static_cast<cVarDeclNode *>(GetChild(num));
+        }
+
         //override GetName Virtual function from cDeclNode
         virtual cSymbol* GetName()
         {

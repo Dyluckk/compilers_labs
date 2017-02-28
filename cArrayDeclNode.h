@@ -48,12 +48,17 @@ class cArrayDeclNode : public cDeclNode
 			return result;
 		}
 
+    int GetSize()
+    {
+      return m_count;
+    }
+
     //override GetName Virtual function from cDeclNode
     virtual cSymbol* GetName()
     {
       return static_cast<cSymbol* >(GetChild(1));
     }
-    
+
     //override GetType Virtual function from cDeclNode
     virtual cDeclNode* GetType()
     {
