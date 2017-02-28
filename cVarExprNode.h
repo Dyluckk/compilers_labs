@@ -43,7 +43,12 @@ public:
       }
       decl = decl->GetType()->GetName()->GetDecl();
     }
-    node = decl->GetType();
+    
+    if(decl != nullptr)
+    {
+      node = decl->GetType();
+    }
+
     return node;
   }
 
