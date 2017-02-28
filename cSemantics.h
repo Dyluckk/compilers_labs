@@ -27,6 +27,34 @@ public:
     if (node->GetName()->GetDecl() == nullptr)
     {
       SemanticError(node, "Symbol " + node->GetName()->GetName() + " not defined ");
+      return;
+    }
+  }
+
+  void Visit(cAssignNode *node)
+  {
+
+    VisitAllChildren(node);
+
+    if (!node->GetLHS()->HasError() && !node->GetRHS()->HasError())
+    {
+      if (node->GetLHS()->GetType()->IsInt() != node->GetRHS()->GetType()->IsInt())
+      {
+        // SemanticError(node, "Cannot assign " + node->GetLHS()->GetName()->GetName() + " to " + node->GetRHS()->GetName()->GetName());
+        return;
+      }
+
+      if (node->GetLHS()->GetType()->IsFloat() != node->GetRHS()->GetType()->IsFloat())
+      {
+        // SemanticError(node, "Cannot assign " + node->GetLHS()->GetName()->GetName() + " to ");
+        return;
+      }
+
+      if (node->GetLHS()->GetType()->IsChar() != !node->GetRHS()->GetType()->IsChar())
+      {
+        // SemanticError(node, "Cannot assign " + node->GetLHS()->GetName()->GetName() + " to ");
+        return;
+      }
     }
   }
 
@@ -36,19 +64,22 @@ public:
     if (node->GetName()->GetDecl() == nullptr)
     {
       SemanticError(node, "function " + node->GetName()->GetName() + " is not declared ");
+      return;
     }
 
     // check if the FuncExprNode is a cFuncDeclNode
     else if (!node->GetName()->GetDecl()->IsFunc())
     {
       SemanticError(node, node->GetName()->GetName() + " is not a function ");
+      return;
     }
     else if (node->GetFuncDecl()->isDefined() == false)
     {
       SemanticError(node, "function " + node->GetName()->GetName() + " is not fully defined ");
+      return;
     }
 
-    // check arguements passed
+    // check arguments passed
     int numParamsDeclared        = 0;
     int numParamsPassed          = 0;
     cParamsNode *paramsDeclared  = node->GetFuncDecl()->GetParams();
@@ -67,6 +98,7 @@ public:
     if (numParamsPassed != numParamsDeclared)
     {
       SemanticError(node, "function " + node->GetName()->GetName() + " called with wrong number of arguments ");
+      return;
     }
 
     for (int i = 0; i < numParamsDeclared; i++)
@@ -75,41 +107,14 @@ public:
       {
         if (paramsPassed->GetExpr(i)->GetType() != paramsDeclared->GetParam(i)->GetType())
         {
-          bool incompatibleArgs = false;
-
-          if (paramsDeclared->GetParam(i)->GetType()->IsInt())
-          {
-            if (paramsPassed->GetExpr(i)->GetType()->IsInt() == false)
-            {
-              incompatibleArgs = true;
-            }
-          }
-          else if (paramsDeclared->GetParam(i)->GetType()->IsChar())
-          {
-            if (paramsPassed->GetExpr(i)->GetType()->IsChar() == false)
-            {
-              incompatibleArgs = true;
-            }
-          }
-          else if (paramsDeclared->GetParam(i)->GetType()->IsFloat())
-          {
-            if (paramsPassed->GetExpr(i)->GetType()->IsFloat() == false)
-            {
-              incompatibleArgs = true;
-            }
-          }
-
-          if (incompatibleArgs)
-          {
-            SemanticError(node, "function " + node->GetName()->GetName() + " called with incompatible argument ");
-          }
-
+          SemanticError(node, "function " + node->GetName()->GetName() + " called with incompatible argument ");
+          return;
         }
       }
     }
   }
 
-  // 1+ 5+ 6+ 7+ 4 3 8 2
+  // 1+ 5+ 6+ 7+ 8+ 4 3 2
 
 protected:
 
