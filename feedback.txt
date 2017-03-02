@@ -1,3 +1,35 @@
+Lab 5 Feedback
+
+116
+
+-14 cFuncDeclNode included instance variables for storing something in the m_children array. cFuncExprNode contained an instance variable for something derived from the m_children array.
+
+-3 You allowed some details of the cParamsNode to leak into your cFuncDeclNode.
+
+-5 Did not implement type promotion in cBinaryExprNode. In fact, did not implement GetType at all.
+
+-2 You don't recognize functions in an inner scope as being different from declaration in outer scopes
+
+-2 Gave the error "Cannot assign int to int", which makes no sense
+
+-2 Your cBaseTypeNode always returned true for IsInt and IsChar
+
+-2 Did not always detect function decls with different number of args
+
+-2 Did not report "var not defined" for arguments to function calls.
+
+-2 You had at least some of your type mismatch error messages backwards
+
+-5 Did not report "is not an array" errors
+
+-5 Did not report "index is not an int" errors
+
+-2 Erroneously reported "called with incompatible arguments" even when the types matched.
+
+-3 One of my other tests segfaulted, but I didn't investigate the cause.
+
+*******************************************
+
 Lab 4 Feedback
 
 145
