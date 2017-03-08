@@ -24,7 +24,7 @@ class cBlockNode : public cStmtNode
         // params are the decls and statements contained in the block
         cBlockNode(cDeclsNode *decls, cStmtsNode *statements) : cStmtNode()
         {
-            m_size = decls->GetSize();
+            m_size = 0;
             AddChild(decls);
             AddChild(statements);
         }

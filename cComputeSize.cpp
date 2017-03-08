@@ -8,12 +8,30 @@ void cComputeSize::VisitAllNodes(cAstNode *node)
 
 void cComputeSize::Visit(cBlockNode *node)
 {
-  int temp = m_offset;
+  int old_offset = m_offset;
+  int old_highwater = m_highwater;
+  m_highwater = 0;
 
   VisitAllChildren(node);
 
-  m_highwater = temp;
-  m_offset    = 0;
+  node->SetSize(m_highwater - old_offset);
+  m_offset = old_offset;
+
+  // check if highwater needs to be set
+  if(old_highwater > m_highwater)
+  {
+    m_highwater = old_highwater;
+  }
+
+}
+
+void cComputeSize::Visit(cDeclsNode *node)
+{
+    int temp = m_offset;
+
+    VisitAllChildren(node);
+
+    node->SetSize(m_offset - temp);
 }
 
 void cComputeSize::Visit(cVarDeclNode *node)

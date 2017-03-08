@@ -39,6 +39,7 @@ class cDeclsNode : public cAstNode
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 
         int GetSize() { return m_size; }
+        void SetSize(int size) { m_size = size; }
 
         virtual string AttributesToString()
         {
