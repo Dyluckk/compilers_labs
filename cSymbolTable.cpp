@@ -1,20 +1,37 @@
+//**************************************
+// cSymbolTable
+//
+// Implementation of Symbol Table
+// NOTE: Most of the implementation is in the .h file.
+// This function needs to be here to avoid circular includes
+//
+// Author: Phil Howard
+// phil.howard@oit.edu
+//
+// Date: Feb. 10, 2017
+//
+//
+
 #include "cSymbolTable.h"
+#include "cBaseTypeNode.h"
 
-// Increasing the scope must create a symbol table, so we call
-// that function to do the actual work of creating the object
-cSymbolTable::cSymbolTable()
+// Add symbols for base types
+void cSymbolTable::InitRootTable()
 {
-  IncreaseScope();
+    cSymbol *type;
 
-  cSymbol *char_type = new cSymbol("char");
-  char_type->SetDecl(new cBaseTypeNode("char", 1, false));
-  Insert(char_type);
+    type = new cSymbol("char");
+    type->SetDecl(new cBaseTypeNode("char", 1, false));
+    Insert(type);
 
-  cSymbol *int_type = new cSymbol("int");
-  int_type->SetDecl(new cBaseTypeNode("int", 4, false));
-  Insert(int_type);
+    type = new cSymbol("int");
+    type->SetDecl(new cBaseTypeNode("int", sizeof(int), false));
+    Insert(type);
 
-  cSymbol *float_type = new cSymbol("float");
-  float_type->SetDecl(new cBaseTypeNode("float", 8, true));
-  Insert(float_type);
+    type = new cSymbol("float");
+    type->SetDecl(new cBaseTypeNode("float", sizeof(double), true));
+    Insert(type);
 }
+
+// Global Symbol Table
+cSymbolTable g_SymbolTable;

@@ -1,65 +1,28 @@
-// **************************************
-
-// cVarDeclNode.h
-//
-// Defines cParamasNode
-//
-// Inherits from cDeclNode
-//
-// Author: Zachary Wentworth
-// zachary.wentworth@oit.edu
-//
-// Date: Feb. 9, 2017
-//
 #pragma once
+//**************************************
+// cParamsNode.h
+//
+// Defines a class to represent a list of declarations.
+//
+// Author: Phil Howard 
+// phil.howard@oit.edu
+//
+// Date: Jan. 18, 2016
+//
 
 #include "cAstNode.h"
 #include "cDeclNode.h"
-#include "cSymbol.h"
 
-class cParamsNode : public cDeclNode {
-public:
+class cParamsNode : public cDeclsNode
+{
+    public:
+        // param is the first decl in this decls
+        cParamsNode(cDeclNode *decl) : cDeclsNode(decl)
+        {
+            // child is added in base constructor
+        }
 
-  // param is the value of the integer constant
-  cParamsNode(cDeclNode *multiple) : cDeclNode()
-  {
-    AddChild(multiple);
-  }
-
-  void Insert(cDeclNode *child)
-  {
-    AddChild(child);
-  }
-
-  int GetNumParams()
-  {
-    return this->NumChildren();
-  }
-
-  cVarDeclNode* GetParam(int num)
-  {
-    return static_cast<cVarDeclNode *>(GetChild(num));
-  }
-
-  // override GetName Virtual function from cDeclNode
-  virtual cSymbol* GetName()
-  {
-    return static_cast<cSymbol *>(GetChild(1));
-  }
-
-  // override GetType Virtual function from cDeclNode
-  virtual cDeclNode* GetType()
-  {
-    return (static_cast<cSymbol *>(GetChild(0)))->GetDecl();
-  }
-
-  virtual string NodeType()
-  {
-    return string("args");
-  }
-
-  virtual void Visit(cVisitor *visitor)
-  {
-    visitor->Visit(this);
-  }
+        // return the XML node name
+        virtual string NodeType() { return string("args"); }
+        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 };

@@ -1,88 +1,97 @@
-// **************************************
-
+#pragma once
+//**************************************
 // cArrayDeclNode.h
 //
-// Defines an AST node for array declerations
+// Defines AST node for a array declaration
 //
-// Inherits from cDeclNode
+// Inherits from cDeclNode because this is a type of declaration
 //
-// Author: Zachary Wentworth
-// zachary.wentworth@oit.edu
+// Author: Phil Howard 
+// phil.howard@oit.edu
 //
-// Date: Feb. 9, 2017
+// Date: Jan. 18, 2016
 //
-#pragma once
 
 #include "cAstNode.h"
 #include "cDeclNode.h"
+#include "cDeclsNode.h"
 #include "cSymbol.h"
+#include "cSymbolTable.h"
 
-class cArrayDeclNode : public cDeclNode {
-public:
+class cArrayDeclNode : public cDeclNode
+{
+    public:
+        // params are: 
+        //     the name of the base type for this array
+        //     the cSymbol for the name of the array
+        //     the size of the array
+        cArrayDeclNode( cSymbol *type_id,
+                        cSymbol *array_id,
+                        int size)
+            : cDeclNode()
+        {
+            cSymbol *name;
 
-  cArrayDeclNode(cSymbol *type, int count, cSymbol *name) : cDeclNode()
-  {
-    if (g_SymbolTable.Find(name->GetName()))
-    {
-      name = new cSymbol(name->GetName());
-      g_SymbolTable.Insert(name);
-      name->SetDecl(this);
-    }
-    else
-    {
-      g_SymbolTable.Insert(name);
-      name->SetDecl(this);
-    }
+            AddChild(type_id);
 
-    m_count = count;
-    AddChild(type);
-    AddChild(name);
-  }
+            // Figure out if the ID we were passed already exists in the 
+            // local symbol table. 
+            name = g_SymbolTable.FindLocal(array_id->GetName());
+            if (name == nullptr)
+            {
+                // No: this is good. A later lab will cause an error if it does
+                name = array_id;
 
-  // output the correct string wanted by output
-  virtual string AttributesToString()
-  {
-    string result(" count='");
+                // If the symbol exists in an outer scope, we need to create
+                // a new one instead of re-using the symbol from the outer scope
+                if (g_SymbolTable.Find(array_id->GetName()) != nullptr)
+                {
+                    name = new cSymbol(array_id->GetName());
+                }
 
-    result += std::to_string(m_count);
-    result += "'";
-    return result;
-  }
+                name->SetDecl(this);
 
-  int GetSize()
-  {
-    return m_count;
-  }
+                // insert the name of the array into the global symbol table
+                g_SymbolTable.Insert(name);
+            }
 
-  // override GetName Virtual function from cDeclNode
-  virtual cSymbol* GetName()
-  {
-    return static_cast<cSymbol *>(GetChild(1));
-  }
+            AddChild(name);
 
-  // override GetType Virtual function from cDeclNode
-  virtual cDeclNode* GetType()
-  {
-    return (static_cast<cSymbol *>(GetChild(0)))->GetDecl();
-  }
+            m_count = size;
+        }
 
-  virtual string NodeType() {
-    return string("array_decl");
-  }
+        // return the type of the elements
+        virtual cDeclNode *GetBaseType()
+        {
+            cSymbol* type = static_cast<cSymbol*>(GetChild(0));
 
-  virtual void Visit(cVisitor *visitor) {
-    visitor->Visit(this);
-  }
+            return type->GetDecl();
+        }
 
-  virtual bool IsType()  {
-    return true;
-  }
+        // Since this IS a type, return self
+        virtual cDeclNode *GetType() { return this; }
 
-  virtual bool IsArray() {
-    return true;
-  }
+        virtual cDeclNode *GetType(int depth) 
+        { 
+            if (depth == 0) return this;
+            return GetBaseType()->GetType(depth - 1); 
+        }
 
-protected:
+        virtual bool IsType()   { return true; }
+        virtual bool IsArray()  { return true; }
 
-  int m_count;
+        virtual cSymbol* GetName()
+        {
+            return static_cast<cSymbol*>(GetChild(1));
+        }
+
+        virtual string NodeType() { return string("array_decl"); }
+        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+        virtual string AttributesToString()
+        {
+            return " count=\"" + std::to_string(m_count) + "\"";
+        }
+    protected:
+        int m_count;
+
 };

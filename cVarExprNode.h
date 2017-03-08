@@ -1,69 +1,110 @@
-// **************************************
-
-// cVarDeclNode.h
-//
-// Defines an AST node for an variable declerations
-//
-// Inherits from cDeclsNode
-//
-// Author: Zachary Wentworth
-// zachary.wentworth@oit.edu
-//
-// Date: Feb. 9, 2017
-//
 #pragma once
+//**************************************
+// cVarExprNode.h
+//
+// Defines AST node for a variable reference
+//
+// Inherits from cExprNode so variable refs can be used in expressions`
+//
+// Author: Phil Howard 
+// phil.howard@oit.edu
+//
+// Date: Jan. 18, 2016
+//
 
+#include "cSymbol.h"
 #include "cAstNode.h"
-#include "cDeclNode.h"
 #include "cExprNode.h"
 
-class cVarExprNode : public cExprNode {
-public:
+class cVarExprNode : public cExprNode
+{
+    public:
+        // param is the symbol for the variable
+        cVarExprNode(cSymbol *name)
+            : cExprNode()
+        {
+            AddChild(name);
+        }
 
-  cVarExprNode(cSymbol *val) : cExprNode()
-  {
-    AddChild(val);
-  }
+        // called for the fields in struct refs
+        void AddElement(cSymbol *name)
+        {
+            AddChild(name);
+        }
 
-  virtual cSymbol* GetName()
-  {
-    return static_cast<cSymbol *>(GetChild(0));
-  }
+        void AddElement(cExprNode *index)
+        {
+            AddChild(index);
+        }
 
-  virtual cDeclNode* GetType()
-  {
-    cDeclNode *decl = GetName()->GetDecl();
-    cDeclNode *node = nullptr;
+        cSymbol* GetName() 
+        {
+            return static_cast<cSymbol*>(GetChild(0));
+        }
 
-    for (int i = 0; i < (this->NumChildren() - 1); i++)
-    {
-      if (decl == nullptr)
-      {
-        return nullptr;
-      }
-      decl = decl->GetType()->GetName()->GetDecl();
-    }
-    
-    if(decl != nullptr)
-    {
-      node = decl->GetType();
-    }
+        // return a string representation of the name of the var
+        virtual string GetTextName()
+        {
+            string name("");
+            cSymbol* sym;
 
-    return node;
-  }
+            sym = GetName();
 
-  virtual string NodeType()
-  {
-    return string("varref");
-  }
+            name += sym->GetName();
 
-  virtual void Visit(cVisitor *visitor)
-  {
-    visitor->Visit(this);
-  }
+            for (int ii=0; ii<NumItems(); ii++)
+            {
+                if (ItemIsIndex(ii))
+                {
+                    name += "[]";
+                }
+                else
+                {
+                    sym = GetElement(ii);
+                    name += "." + sym->GetName();
+                }
+            }
 
-  void Insert(cSymbol *var)
-  {
-    AddChild(var);
-  }
+            return name;
+        }
+
+        // return the type of the VarExpr. This includes dereferencing arrays
+        virtual cDeclNode *GetType() 
+        { 
+            cDeclNode* decl = GetName()->GetDecl();
+            if (decl == nullptr) return nullptr;
+
+            cDeclNode* type = decl->GetType();
+
+            if (type->IsArray())
+            {
+                return type->GetType(NumItems());
+            }
+            else
+            {
+                return type; 
+            }
+        }
+
+        int NumItems() { return NumChildren() - 1; }
+
+        bool ItemIsIndex(int index)
+        {
+            // if the dynamic cast fails, this item must be a cSymbol* for
+            // a struct member
+            return dynamic_cast<cExprNode*>(GetChild(index + 1)) != nullptr;
+        }
+
+        cSymbol* GetElement(int index)
+        {
+             return (cSymbol*)GetChild(index + 1);
+        }
+
+        cExprNode* GetIndex(int index)
+        {
+             return (cExprNode*)GetChild(index + 1);
+        }
+
+        virtual string NodeType() { return string("varref"); }
+        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 };

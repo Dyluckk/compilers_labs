@@ -1,51 +1,39 @@
-// **************************************
-
+#pragma once
+//**************************************
 // cParamListNode.h
 //
-// Defines an AST node for param lists
+// Defines AST node for actual params passed to a function
 //
-// Inherits from cExprNode
+// Author: Phil Howard 
+// phil.howard@oit.edu
 //
-// Author: Zachary Wentworth
-// zachary.wentworth@oit.edu
+// Date: Jan. 18, 2016
 //
-// Date: Feb. 9, 2017
-//
-#pragma once
 
 #include "cAstNode.h"
-#include "cSymbol.h"
+#include "cExprNode.h"
 
-class cParamListNode : public cAstNode {
-public:
+class cParamListNode : public cAstNode
+{
+    public:
+        // param is first actual param passed to function
+        cParamListNode(cExprNode *param)
+            : cAstNode()
+        {
+            AddChild(param);
+        }
 
-  cParamListNode(cExprNode *multiple) : cAstNode()
-  {
-    AddChild(multiple);
-  }
+        // add the next actual param
+        void Insert(cExprNode *param)
+        {
+            AddChild(param);
+        }
 
-  void Insert(cExprNode *child)
-  {
-    AddChild(child);
-  }
+        cExprNode* GetParam(int index)
+        {
+            return static_cast<cExprNode*>(GetChild(index));
+        }
 
-  cExprNode* GetExpr(int num)
-  {
-    return static_cast<cExprNode *>(GetChild(num));
-  }
-
-  int GetNumParams()
-  {
-    return this->NumChildren();
-  }
-
-  virtual string NodeType()
-  {
-    return string("params");
-  }
-
-  virtual void Visit(cVisitor *visitor)
-  {
-    visitor->Visit(this);
-  }
+        virtual string NodeType() { return string("params"); }
+        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 };

@@ -1,11 +1,10 @@
 #pragma once
-
-// **************************************
+//**************************************
 // cAstNode.h
 //
 // pure virtual base class for all AST nodes
 //
-// Author: Phil Howard
+// Author: Phil Howard 
 // phil.howard@oit.edu
 //
 // Date: Jan. 18, 2016
@@ -24,94 +23,84 @@ extern int yylineno;
 // called to throw a semantic error
 extern void SemanticError(std::string error);
 
-class cAstNode {
-public:
+class cAstNode
+{
+    public:
+        // iterator for going through the children
+        typedef vector<cAstNode*>::iterator iterator;
 
-  typedef vector<cAstNode *>::iterator iterator;
+        cAstNode() 
+        {
+            m_lineNumber = yylineno;
+            m_hasSemanticError = false;
+        }
 
-  cAstNode()
-  {
-    m_lineNumber       = yylineno;
-    m_hasSemanticError = false;
-  }
+        void AddChild(cAstNode *child)
+        {
+            m_children.push_back(child);
+        }
 
-  void AddChild(cAstNode *child)
-  {
-    m_children.push_back(child);
-  }
+        iterator FirstChild()
+        {
+            return m_children.begin();
+        }
 
-  iterator FirstChild()
-  {
-    return m_children.begin();
-  }
+        iterator LastChild()
+        {
+            return m_children.end();
+        }
 
-  iterator LastChild()
-  {
-    return m_children.end();
-  }
+        bool HasChildren()      { return !m_children.empty(); }
+        int NumChildren()       { return (int)m_children.size(); }
 
-  bool HasChildren()      {
-    return !m_children.empty();
-  }
+        cAstNode* GetChild(int child)
+        {
+            if (child >= (int)m_children.size()) return nullptr;
+            return m_children[child];
+        }
 
-  int NumChildren()       {
-    return (int)m_children.size();
-  }
+        void SetHasError() { m_hasSemanticError = true; }
+        bool HasError()    { return m_hasSemanticError; }
 
-  cAstNode* GetChild(int child)
-  {
-    if (child >= (int)m_children.size()) return nullptr;
+        // return a string representation of the node
+        // The recurses through the whole AST
+        // This should NOT be overridden in subclasses
+        string ToString() 
+        {
+            string result("");
 
-    return m_children[child];
-  }
+            result += "<" + NodeType();
+            result += AttributesToString();
 
-  void SetHasError() {
-    m_hasSemanticError = true;
-  }
+            if (HasChildren())
+            {
+                result += ">";
+                iterator it;
+                for (it=FirstChild(); it != LastChild(); it++)
+                {
+                    if ( (*it) != nullptr) result += (*it)->ToString();
+                }
+            }
 
-  bool HasError()    {
-    return m_hasSemanticError;
-  }
+            if (HasChildren()) 
+                result += "</" + NodeType() + ">\n";
+            else
+                result += "/>";
 
-  // return a string representation of the node
-  string ToString()
-  {
-    string result("");
+            return result;
+        }
 
-    result += "<" + NodeType();
-    result += AttributesToString();
+        int LineNumber() { return m_lineNumber; }
 
-    if (HasChildren())
-    {
-      result += ">";
-      iterator it;
+        // AttributesToString must be overriden by subclasses
+        // that have attributes.
+        virtual string AttributesToString()   { return string(""); }
+        virtual string NodeType() = 0; //      { return "AST"; }
+        virtual void Visit(cVisitor *visitor) = 0;
 
-      for (it = FirstChild(); it != LastChild(); it++)
-      {
-        if ((*it) != nullptr) result += (*it)->ToString();
-      }
-    }
-
-    if (HasChildren()) result += "</" + NodeType() + ">\n";
-    else result += "/>";
-
-    return result;
-  }
-
-  int LineNumber() {
-    return m_lineNumber;
-  }
-
-  virtual string AttributesToString()   {
-    return string("");
-  }
-
-  virtual string NodeType()               = 0; //      { return "AST"; }
-  virtual void   Visit(cVisitor *visitor) = 0;
-
-protected:
-
-  vector<cAstNode *>m_children; // list of statements
-  int m_lineNumber;
-  bool m_hasSemanticError;
+    protected:
+        vector<cAstNode *> m_children;     // list of statements
+        int m_lineNumber;
+        bool m_hasSemanticError;
 };
+

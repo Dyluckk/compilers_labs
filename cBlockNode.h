@@ -1,5 +1,5 @@
-// **************************************
-
+#pragma once
+//**************************************
 // cBlockNode.h
 //
 // Defines AST node for a block of code (stuff inside {})
@@ -12,28 +12,43 @@
 //
 // Date: Jan. 18, 2016
 //
-#pragma once
 
 #include "cAstNode.h"
 #include "cDeclsNode.h"
 #include "cStmtNode.h"
 #include "cStmtsNode.h"
 
-class cBlockNode : public cStmtNode {
-public:
+class cBlockNode : public cStmtNode
+{
+    public:
+        // params are the decls and statements contained in the block
+        cBlockNode(cDeclsNode *decls, cStmtsNode *statements) : cStmtNode()
+        {
+            m_size = decls->GetSize();
+            AddChild(decls);
+            AddChild(statements);
+        }
 
-  // params are the decls and statements contained in the block
-  cBlockNode(cDeclsNode *decls, cStmtsNode *statements) : cStmtNode()
-  {
-    AddChild(decls);
-    AddChild(statements);
-  }
+        virtual string NodeType() { return string("block"); }
+        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 
-  virtual string NodeType() {
-    return string("block");
-  }
+        int GetSize() { return m_size; }
+        void SetSize(int size) { m_size = size; }
 
-  virtual void Visit(cVisitor *visitor) {
-    visitor->Visit(this);
-  }
+        virtual string AttributesToString()
+        {
+            if(m_size)
+            {
+              return " size=\"" + std::to_string(m_size) + "\"";
+            }
+            else
+            {
+              return "";
+            }
+
+        }
+
+    private:
+        int m_size;
+
 };

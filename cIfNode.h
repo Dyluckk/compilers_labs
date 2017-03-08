@@ -1,46 +1,35 @@
-// **************************************
-
+#pragma once
+//**************************************
 // cIfNode.h
 //
-// Defines an AST node for an  if node
+// Defines AST node for an if statement
 //
-// Inherits from cStmtNode
+// Inherits from cStmtNode so that if statements can be included in lists of
+// statements
 //
-// Author: Zachary Wentworth
-// zachary.wentworth@oit.edu
+// Author: Phil Howard 
+// phil.howard@oit.edu
 //
-// Date: Feb. 9, 2017
+// Date: Jan. 18, 2016
 //
-#pragma once
 
 #include "cAstNode.h"
 #include "cStmtNode.h"
-#include "cStmtsNode.h"
 #include "cExprNode.h"
 
-class cIfNode : public cStmtNode {
-public:
+class cIfNode : public cStmtNode
+{
+    public:
+        // params are the condition, the list of statments for the if part,
+        // and the list of statements for the else part. The else part can
+        // be nullptr
+        cIfNode(cExprNode *cond, cStmtsNode *ifStmt, cStmtsNode *elseStmt)
+        {
+            AddChild(cond);
+            AddChild(ifStmt);
+            AddChild(elseStmt);
+        }
 
-  cIfNode(cExprNode *expr, cStmtsNode *ifStmt, cStmtsNode *elseStmt) : cStmtNode()
-  {
-    AddChild(expr);
-    AddChild(ifStmt);
-    AddChild(elseStmt);
-  }
-
-  cIfNode(cExprNode *expr, cStmtsNode *ifStmt) : cStmtNode()
-  {
-    AddChild(expr);
-    AddChild(ifStmt);
-  }
-
-  virtual string NodeType()
-  {
-    return string("if");
-  }
-
-  virtual void Visit(cVisitor *visitor)
-  {
-    visitor->Visit(this);
-  }
+        virtual string NodeType() { return string("if"); }
+        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 };

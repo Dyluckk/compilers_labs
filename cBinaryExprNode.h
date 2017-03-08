@@ -1,44 +1,77 @@
-// **************************************
-
+#pragma once
+//**************************************
 // cBinaryExprNode.h
 //
-// Defines an AST node for an binary expressions.
+// Defines AST node for binary expressions.
+// Inherits from cExprNode
 //
-// Inherits from cExprNode so that binary expressions can be used in those type
-// of
-// expressions
+// Author: Phil Howard
+// phil.howard@oit.edu
 //
-// Author: Zachary Wentworth
-// zachary.wentworth@oit.edu
+// Date: Jan. 18, 2016
 //
-// Date: Feb. 9, 2017
-//
-#pragma once
 
 #include "cAstNode.h"
 #include "cExprNode.h"
+#include "cOpNode.h"
 
-class cBinaryExprNode : public cExprNode {
-public:
+class cBinaryExprNode : public cExprNode
+{
+    public:
+        // params are the left and right expressions and the operation.
+        // The operation is a char: '+', '-', etc.
+        cBinaryExprNode(cExprNode *left, int op, cExprNode *right) : cExprNode()
+        {
+            AddChild(left);
+            AddChild(new cOpNode(op));
+            AddChild(right);
+        }
 
-  // param is the value of the integer constant
-  cBinaryExprNode(cExprNode *Left, cOpNode *operation, cExprNode *Right) : cExprNode()
-  {
-    AddChild(Left);
-    AddChild(operation);
-    AddChild(Right);
-  }
+        // return the resulting type of the operation
+        // performs operand promotion of numeric types
+        virtual cDeclNode *GetType()
+        {
+            cDeclNode *left;
+            cDeclNode *right;
 
-  virtual cDeclNode* GetType()
-  {
-    return nullptr;
-  }
+            left = GetLeft()->GetType();
+            right = GetRight()->GetType();
 
-  virtual string NodeType() {
-    return string("expr");
-  }
+            if (left == nullptr || right == nullptr)
+            {
+                SetHasError();
+                return nullptr;
+            }
+            if (!left->IsNumeric() || !right->IsNumeric())
+            {
+                SetHasError();
+                return nullptr;
+            }
 
-  virtual void Visit(cVisitor *visitor) {
-    visitor->Visit(this);
-  }
+            if (left == right)
+                return left;
+            else if (left->IsFloat())
+                return left;
+            else if (right->IsFloat())
+                return right;
+            else if (left->IsInt())
+                return left;
+            else if (right->IsInt())
+                return right;
+            else
+                return left;    // should never get here
+        }
+
+        cExprNode* GetLeft()
+        {
+            return static_cast<cExprNode*>(GetChild(0));
+        }
+
+        cExprNode* GetRight()
+        {
+            return static_cast<cExprNode*>(GetChild(2));
+        }
+
+        virtual string NodeType() { return string("expr"); }
+        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 };

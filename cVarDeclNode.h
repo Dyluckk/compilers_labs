@@ -1,76 +1,77 @@
-// **************************************
-
+#pragma once
+//**************************************
 // cVarDeclNode.h
 //
-// Defines an AST node for an variable declerations
+// Defines AST node for a variable declaration
 //
-// Inherits from cDeclsNode
+// Inherits from cDeclNode so variables can be added to lists of decls
 //
-// Author: Zachary Wentworth
-// zachary.wentworth@oit.edu
+// Author: Phil Howard
+// phil.howard@oit.edu
 //
-// Date: Feb. 9, 2017
+// Date: Jan. 18, 2016
 //
-#pragma once
 
 #include "cAstNode.h"
 #include "cDeclNode.h"
 #include "cSymbol.h"
+#include "cSymbolTable.h"
 
-class cVarDeclNode : public cDeclNode {
-public:
+class cVarDeclNode : public cDeclNode
+{
+    public:
+        // params are the symbol for the type and the name
+        cVarDeclNode(cSymbol *type_id, cSymbol *var_id) : cDeclNode(type_id->GetDecl()->GetSize())
+        {
+            AddChild(type_id);
 
-  cVarDeclNode(cSymbol *type, cSymbol *name) : cDeclNode()
-  {
-    if (g_SymbolTable.FindLocal(name->GetName()))
-    {
-      SemanticError("Symbol " + name->GetName() + " already defined in current scope");
-    }
-    else
-    {
-      // create a new symbol for the inner scope if exists somewhere outside of
-      // the scope
-      if (g_SymbolTable.Find(name->GetName()))
-      {
-        name = new cSymbol(name->GetName());
-      }
+            // Check to see if the symbol is not in the inner most scope.
+            // If it is, this is an error
+            cSymbol* m_var = g_SymbolTable.FindLocal(var_id->GetName());
+            if (m_var == NULL)
+            {
+                m_var = var_id;
 
-      name->SetDecl(this);
-      g_SymbolTable.Insert(name);
-    }
-    AddChild(type);
-    AddChild(name);
-  }
+                // If the symbol exists in an outer scope, we need to create
+                // a new one instead of reusing the outer scope's symbol.
+                if (g_SymbolTable.Find(var_id->GetName()) != nullptr)
+                {
+                    m_var = new cSymbol(var_id->GetName());
+                }
 
-  void Insert(cSymbol *var)
-  {
-    AddChild(var);
-  }
+                // Insert into the global symbol table
+                g_SymbolTable.Insert(m_var);
+                //m_var->SetDecl(type_id->GetDecl());
+                m_var->SetDecl(this);
 
-  // override GetName Virtual function from cDeclNode
-  virtual cSymbol* GetName()
-  {
-    return static_cast<cSymbol *>(GetChild(1));
-  }
+                AddChild(m_var);
+            }
+            else
+            {
+                string error("");
 
-  // override GetType Virtual function from cDeclNode
-  virtual cDeclNode* GetType()
-  {
-    return (static_cast<cSymbol *>(GetChild(0)))->GetDecl();
-  }
+                error += "Symbol " + m_var->GetName();
+                error += " already defined in current scope";
+                SetHasError();
+                SemanticError(error);
+            }
+        }
 
-  virtual string NodeType()
-  {
-    return string("var_decl");
-  }
+        virtual bool IsVar()  { return true; }
 
-  virtual void Visit(cVisitor *visitor)
-  {
-    visitor->Visit(this);
-  }
+        // return the type of the var
+        virtual cDeclNode *GetType()
+        {
+            cSymbol* type = static_cast<cSymbol*>(GetChild(0));
 
-  virtual bool IsVar()
-  {
-    return true;
-  }
+            return type->GetDecl();
+        }
+
+        virtual cSymbol* GetName()
+        {
+            return static_cast<cSymbol*>(GetChild(1));
+        }
+
+        virtual string NodeType() { return string("var_decl"); }
+        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 };

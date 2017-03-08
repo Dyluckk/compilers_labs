@@ -18,15 +18,15 @@
 #include "astnodes.h"
 #include "langparse.h"
 #include "cSemantics.h"
+#include "cComputeSize.h"
 
 // define global variables
-cSymbolTable g_SymbolTable;
 long long cSymbol::nextId;
 
 // takes two string args: input_file, and output_file
 int main(int argc, char **argv)
 {
-    std::cout << "Zachary Wentworth" << std::endl;
+    // std::cout << "Zachary Wentworth" << std::endl;
 
     cSemantics semantics;
 
@@ -61,22 +61,25 @@ int main(int argc, char **argv)
     // fixup cout so it redirects to output
     std::cout.rdbuf(output.rdbuf());
 
-    // removed for lab 5b
-    // g_SymbolTable.InitRootTable();
+    g_SymbolTable.InitRootTable();
 
     result = yyparse();
     if (yyast_root != nullptr)
     {
-        semantics.VisitAllNodes(yyast_root);
+        //TODO ask phil if we still need this?
+        // semantics.VisitAllNodes(yyast_root);
 
-        result += semantics.GetNumErrors();
+        cComputeSize sizer;
+        sizer.VisitAllNodes(yyast_root);
+
+        result += semantics.NumErrors();
         if (result == 0)
         {
             output << yyast_root->ToString() << std::endl;
         }
         else
         {
-            output << yynerrs + semantics.GetNumErrors() << " Errors in compile\n";
+            output << yynerrs + semantics.NumErrors() << " Errors in compile\n";
         }
     }
 
