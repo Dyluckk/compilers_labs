@@ -120,14 +120,17 @@ class cVarExprNode : public cExprNode
           cDeclNode *decl = GetName()->GetDecl();
           cDeclNode *type = nullptr;
 
-          for (int i = 0; i < index; i++)
+          for (unsigned int i = 0; i < index; i++)
           {
             if (decl == nullptr)
             {
               return nullptr;
             }
+            else
+            {
+              decl = decl->GetBaseType()->GetName()->GetDecl();
+            }
 
-            decl = decl->GetBaseType()->GetName()->GetDecl();
           }
 
           type = decl->GetBaseType();
