@@ -1,6 +1,8 @@
 #include "cComputeSize.h"
 #include "astnodes.h"
 
+#define STACK_FRAME_SIZE 8
+
 void cComputeSize::VisitAllNodes(cAstNode *node)
 {
   VisitAllChildren(node);
@@ -10,14 +12,7 @@ void cComputeSize::Visit(cProgramNode *node)
 {
   VisitAllChildren(node);
   cBlockNode *block = node->GetBlock();
-  int blockSize     = block->GetSize();
-
-  while (blockSize % 4 != 0)
-  {
-    blockSize++;
-  }
-
-  block->SetSize(blockSize);
+  block->SetSize(Align(block->GetSize()));
 }
 
 void cComputeSize::Visit(cBlockNode *node)
@@ -42,6 +37,7 @@ void cComputeSize::Visit(cBlockNode *node)
 void cComputeSize::Visit(cDeclsNode *node)
 {
   int old_offset = m_offset;
+
   VisitAllChildren(node);
   node->SetSize(m_offset - old_offset);
 }
@@ -88,27 +84,53 @@ void cComputeSize::Visit(cVarDeclNode *node)
 
 void cComputeSize::Visit(cFuncDeclNode *node)
 {
-  int old_offset    = m_offset;
-  int old_highwater = m_highwater;
+  int start_offset    = m_offset;
+  int start_highwater = m_highwater;
 
+  m_offset    = -STACK_FRAME_SIZE;
+  m_highwater = 0;
+
+  if (node->GetParams() != nullptr) node->GetParams()->Visit(this);
   m_offset    = 0;
   m_highwater = 0;
 
-  VisitAllChildren(node);
+  if (node->GetLocals() != nullptr) node->GetLocals()->Visit(this);
 
-  m_offset = Align(4);
+  if (node->GetStmts() != nullptr) node->GetStmts()->Visit(this);
+
   node->SetSize(Align(m_highwater));
-  m_offset    = old_offset;
-  m_highwater = old_highwater;
+
+  m_highwater = start_highwater;
+  m_offset    = start_offset;
+}
+
+void cComputeSize::Visit(cParamListNode *node)
+{
+  int size = 0;
+
+  // need to explicitly visit the children because expressions don't
+  // update a size so we can't use VisitAllChildren
+  for (int ii = 0; ii < node->NumChildren(); ii++)
+  {
+    cExprNode *expr = node->GetParam(ii);
+
+    if (expr != nullptr)
+    {
+      expr->Visit(this);
+      size += Align(expr->GetType()->GetSize());
+    }
+  }
+
+  node->SetSize(size);
 }
 
 void cComputeSize::Visit(cParamsNode *node)
 {
-  int old_offset = m_offset;
-  m_offset = -8;
   VisitAllChildren(node);
-  node->SetSize(-(m_offset + 8));
-  m_offset = old_offset;
+
+  node->SetSize(-m_offset - STACK_FRAME_SIZE);
+
+  if (m_offset > m_highwater) m_highwater = m_offset;
 }
 
 void cComputeSize::Visit(cVarExprNode *node)

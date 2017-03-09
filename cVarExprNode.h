@@ -165,7 +165,6 @@ class cVarExprNode : public cExprNode
             rowSizes += std::to_string(m_rowSizes[i]);
             rowSizes += " ";
           }
-          rowSizes.pop_back();
 
           return " size=\"" + std::to_string(m_size) + "\" offset=\""
                  + std::to_string(m_offset) + "\" rowsizes=\"" + rowSizes + "\"";

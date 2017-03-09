@@ -18,9 +18,10 @@ public:
     virtual void Visit(cVarDeclNode *node);
     virtual void Visit(cFuncDeclNode *node);
     virtual void Visit(cParamsNode *node);
+    virtual void Visit(cParamListNode *node);
     virtual void Visit(cVarExprNode *node);
     virtual void Visit(cFuncExprNode *node);
-    
+
 private:
     int Align(int size);
     int m_offset;
