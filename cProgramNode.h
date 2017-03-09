@@ -4,7 +4,7 @@
 //
 // Defines AST node for a lang program
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
 // Date: Jan. 18, 2016
@@ -20,6 +20,11 @@ class cProgramNode : public cAstNode
         cProgramNode(cBlockNode *block) : cAstNode()
         {
             AddChild(block);
+        }
+
+        cBlockNode* GetBlock()
+        {
+          return static_cast<cBlockNode *>(GetChild(0));
         }
 
         virtual string NodeType() { return string("program"); }

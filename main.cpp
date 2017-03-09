@@ -26,7 +26,7 @@ long long cSymbol::nextId;
 // takes two string args: input_file, and output_file
 int main(int argc, char **argv)
 {
-    // std::cout << "Zachary Wentworth" << std::endl;
+    std::cout << "Zachary Wentworth" << std::endl;
 
     cSemantics semantics;
 
@@ -66,9 +66,6 @@ int main(int argc, char **argv)
     result = yyparse();
     if (yyast_root != nullptr)
     {
-        //TODO ask phil if we still need this?
-        // semantics.VisitAllNodes(yyast_root);
-
         cComputeSize sizer;
         sizer.VisitAllNodes(yyast_root);
 

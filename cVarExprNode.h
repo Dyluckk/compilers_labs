@@ -6,7 +6,7 @@
 //
 // Inherits from cExprNode so variable refs can be used in expressions`
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
 // Date: Jan. 18, 2016
@@ -26,6 +26,11 @@ class cVarExprNode : public cExprNode
             AddChild(name);
         }
 
+        cDeclNode* GetDecl()
+        {
+          return GetName()->GetDecl();
+        }
+
         // called for the fields in struct refs
         void AddElement(cSymbol *name)
         {
@@ -37,7 +42,7 @@ class cVarExprNode : public cExprNode
             AddChild(index);
         }
 
-        cSymbol* GetName() 
+        cSymbol* GetName()
         {
             return static_cast<cSymbol*>(GetChild(0));
         }
@@ -69,8 +74,8 @@ class cVarExprNode : public cExprNode
         }
 
         // return the type of the VarExpr. This includes dereferencing arrays
-        virtual cDeclNode *GetType() 
-        { 
+        virtual cDeclNode *GetType()
+        {
             cDeclNode* decl = GetName()->GetDecl();
             if (decl == nullptr) return nullptr;
 
@@ -82,7 +87,7 @@ class cVarExprNode : public cExprNode
             }
             else
             {
-                return type; 
+                return type;
             }
         }
 
@@ -105,6 +110,70 @@ class cVarExprNode : public cExprNode
              return (cExprNode*)GetChild(index + 1);
         }
 
+        virtual int GetSize() { return m_size; }
+        virtual void SetSize(int size) { m_size = size; }
+        virtual int GetOffset() { return m_offset; }
+        virtual void SetOffset(int offset) { m_offset = offset; }
+
+        cDeclNode* GetDereferencedType(int index)
+        {
+          cDeclNode *decl = GetName()->GetDecl();
+          cDeclNode *type = nullptr;
+
+          for (int i = 0; i < index; i++)
+          {
+            if (decl == nullptr)
+            {
+              return nullptr;
+            }
+
+            decl = decl->GetBaseType()->GetName()->GetDecl();
+          }
+
+          type = decl->GetBaseType();
+          return type;
+        }
+
+        void AddRowSize(int size)
+        {
+            m_rowSizes.push_back(size);
+        }
+
+        virtual string AttributesToString()
+        {
+          string rowSizes;
+
+          //check if rowsize
+          if (m_rowSizes.size() == 0)
+          {
+            if ((m_size == 0) && (m_offset == 0))
+            {
+              return "";
+            }
+            else
+            {
+              return " size=\"" + std::to_string(m_size) + "\" offset=\""
+                     + std::to_string(m_offset) + "\"";
+            }
+          }
+
+          for (int i = 0; i < m_rowSizes.size(); i++)
+          {
+            rowSizes += std::to_string(m_rowSizes[i]);
+            rowSizes += " ";
+          }
+          rowSizes.pop_back();
+
+          return " size=\"" + std::to_string(m_size) + "\" offset=\""
+                 + std::to_string(m_offset) + "\" rowsizes=\"" + rowSizes + "\"";
+        }
+
         virtual string NodeType() { return string("varref"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+
+  private:
+        int m_size;
+        int m_offset;
+        vector<int> m_rowSizes;
+
 };

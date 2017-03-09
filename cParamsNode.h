@@ -4,7 +4,7 @@
 //
 // Defines a class to represent a list of declarations.
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
 // Date: Jan. 18, 2016

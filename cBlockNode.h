@@ -45,7 +45,6 @@ class cBlockNode : public cStmtNode
             {
               return "";
             }
-
         }
 
     private:

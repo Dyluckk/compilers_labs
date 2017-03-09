@@ -6,7 +6,7 @@
 //
 // Inherits from cDeclNode because this is a type of declaration
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
 // Date: Jan. 18, 2016
@@ -21,7 +21,7 @@
 class cArrayDeclNode : public cDeclNode
 {
     public:
-        // params are: 
+        // params are:
         //     the name of the base type for this array
         //     the cSymbol for the name of the array
         //     the size of the array
@@ -34,8 +34,8 @@ class cArrayDeclNode : public cDeclNode
 
             AddChild(type_id);
 
-            // Figure out if the ID we were passed already exists in the 
-            // local symbol table. 
+            // Figure out if the ID we were passed already exists in the
+            // local symbol table.
             name = g_SymbolTable.FindLocal(array_id->GetName());
             if (name == nullptr)
             {
@@ -71,10 +71,10 @@ class cArrayDeclNode : public cDeclNode
         // Since this IS a type, return self
         virtual cDeclNode *GetType() { return this; }
 
-        virtual cDeclNode *GetType(int depth) 
-        { 
+        virtual cDeclNode *GetType(int depth)
+        {
             if (depth == 0) return this;
-            return GetBaseType()->GetType(depth - 1); 
+            return GetBaseType()->GetType(depth - 1);
         }
 
         virtual bool IsType()   { return true; }
@@ -91,6 +91,12 @@ class cArrayDeclNode : public cDeclNode
         {
             return " count=\"" + std::to_string(m_count) + "\"";
         }
+
+        int GetCount()
+        {
+          return m_count;
+        }
+
     protected:
         int m_count;
 

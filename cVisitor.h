@@ -5,7 +5,7 @@
 // declaration of visitor base class.
 // The implementation has to be in a cpp to avoid curcular includes
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
 // Date: Feb. 20, 2017
@@ -31,6 +31,7 @@ class cOpNode;
 class cParamListNode;
 class cParamsNode;
 class cPrintNode;
+class cProgramNode;
 class cReturnNode;
 class cStmtNode;
 class cStmtsNode;
@@ -64,6 +65,7 @@ class cVisitor
         virtual void Visit(cParamListNode *node);
         virtual void Visit(cParamsNode *node);
         virtual void Visit(cPrintNode *node);
+        virtual void Visit(cProgramNode *node);
         virtual void Visit(cReturnNode *node);
         virtual void Visit(cStmtNode *node);
         virtual void Visit(cStmtsNode *node);

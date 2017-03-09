@@ -69,7 +69,7 @@ class cDeclNode : public cAstNode
 
         virtual string AttributesToString()
         {
-          if (!m_size && !m_offset){
+          if (m_size == 0 && m_offset == 0){
               return "";
           }
           else
@@ -79,7 +79,6 @@ class cDeclNode : public cAstNode
         }
 
     private:
-
         int m_size;
         int m_offset;
 
