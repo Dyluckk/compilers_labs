@@ -1,3 +1,19 @@
+Lab 6 Feedback
+86
+
+-2 Do not use a while loop to RoundUp/RoundDown
+
+-3 I don't understand why cVarExprNode::AttributesToString has a rows.pop_back(). If you called AttributesToString multiple times, would your row sizes disappear?
+
+-5 your build had compiler warnings
+
+-2 Did not RoundUp the block size for programs
+
+-2 You do not correctly compute the size of params for function calls with const args:
+    foo(1,2);
+
+***********************************
+
 Lab 5 Feedback
 
 116
