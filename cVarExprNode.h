@@ -120,7 +120,7 @@ class cVarExprNode : public cExprNode
           cDeclNode *decl = GetName()->GetDecl();
           cDeclNode *type = nullptr;
 
-          for (unsigned int i = 0; i < index; i++)
+          for (int i = 0; i < index; i++)
           {
             if (decl == nullptr)
             {
@@ -160,7 +160,7 @@ class cVarExprNode : public cExprNode
             }
           }
 
-          for (int i = 0; i < m_rowSizes.size(); i++)
+          for (unsigned int i = 0; i < m_rowSizes.size(); i++)
           {
             rowSizes += std::to_string(m_rowSizes[i]);
             rowSizes += " ";
