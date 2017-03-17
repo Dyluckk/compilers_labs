@@ -6,8 +6,8 @@
 //
 // Inherits from cStmtNode because this is a statement
 //
-// Author: Phil Howard 
-// phil.howard@oit.edu
+// Author: Phil Howard
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 18, 2016
 //
@@ -26,6 +26,10 @@ class cWhileNode : public cStmtNode
             AddChild(cond);
             AddChild(stmt);
         }
+
+        cExprNode * GetCond() { return static_cast<cExprNode *>(GetChild(0)); }
+
+        cStmtNode * GetStmt() { return static_cast<cStmtNode *>(GetChild(1)); }
 
         virtual string NodeType() { return string("while"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }

@@ -4,8 +4,8 @@
 //
 // Parser definition file. bison uses this file to generate the parser.
 //
-// Author: Phil Howard 
-// phil.howard@oit.edu
+// Author: Phil Howard
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 18, 2016
 //
@@ -53,6 +53,7 @@
 %token <int_val>   AND
 %token <int_val>   OR
 %token <int_val>   EQUALS
+%token <int_val>   NOT_EQUALS
 
 %token  PRINT
 %token  WHILE IF ELSE ENDIF
@@ -91,7 +92,7 @@
 
 program: block                  { $$ = new cProgramNode($1);
                                   yyast_root = $$;
-                                  if (yynerrs == 0) 
+                                  if (yynerrs == 0)
                                       YYACCEPT;
                                   else
                                       YYABORT;
@@ -112,36 +113,36 @@ decl:       var_decl ';'        { $$ = $1; }
         |   error ';'           { $$ = nullptr; }
 
 var_decl:   TYPE_ID IDENTIFIER  { $$ = new cVarDeclNode($1, $2); }
-struct_decl:  STRUCT open decls close IDENTIFIER    
+struct_decl:  STRUCT open decls close IDENTIFIER
                                 { $$ = new cStructDeclNode($2, $3, $5); }
 array_decl: ARRAY TYPE_ID '[' INT_VAL ']' IDENTIFIER
                                 { $$ = new cArrayDeclNode($2, $6, $4); }
 
 func_decl:  func_header ';'
-                                { $$ = $1;  
-                                  g_SymbolTable.DecreaseScope();  
+                                { $$ = $1;
+                                  g_SymbolTable.DecreaseScope();
                                 }
         |   func_header  '{' decls stmts '}'
-                                { $$ = $1; 
-                                  $$->AddDecls($3); 
-                                  $$->AddStmts($4); 
-                                  g_SymbolTable.DecreaseScope();  
+                                { $$ = $1;
+                                  $$->AddDecls($3);
+                                  $$->AddStmts($4);
+                                  g_SymbolTable.DecreaseScope();
                                 }
         |   func_header  '{' stmts '}'
-                                { $$ = $1; 
-                                  $$->AddStmts($3); 
-                                  g_SymbolTable.DecreaseScope();  
+                                { $$ = $1;
+                                  $$->AddStmts($3);
+                                  g_SymbolTable.DecreaseScope();
                                 }
 func_header: func_prefix paramsspec ')'
-                                { 
-                                  $$ = $1; $$->AddParams($2); 
+                                {
+                                  $$ = $1; $$->AddParams($2);
                                 }
         |    func_prefix ')'    { $$ = $1; $$->AddParams(nullptr);}
 func_prefix: TYPE_ID IDENTIFIER '('
-                                { $$ = new cFuncDeclNode($1, $2); 
-                                  g_SymbolTable.IncreaseScope(); 
+                                { $$ = new cFuncDeclNode($1, $2);
+                                  g_SymbolTable.IncreaseScope();
                                 }
-paramsspec: paramsspec',' paramspec 
+paramsspec: paramsspec',' paramspec
                                 { $$ = $1; $$->Insert($3); }
         |   paramspec           { $$ = new cParamsNode($1); }
 
@@ -154,7 +155,7 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
                                 { $$ = new cIfNode($3, $5, nullptr); }
         |   IF '(' expr ')' stmts ELSE stmts ENDIF ';'
                                 { $$ = new cIfNode($3, $5, $7); }
-        |   WHILE '(' expr ')' stmt 
+        |   WHILE '(' expr ')' stmt
                                 { $$ = new cWhileNode($3, $5); }
         |   PRINT '(' expr ')' ';'
                                 { $$ = new cPrintNode($3); }
@@ -182,6 +183,7 @@ params:     params',' param     { $$ = $1; $$->Insert($3); }
 param:      expr                { $$ = $1; }
 
 expr:       expr EQUALS addit   { $$ = new cBinaryExprNode($1, $2, $3); }
+        |   expr NOT_EQUALS addit   { $$ = new cBinaryExprNode($1, $2, $3); }
         |   addit               { $$ = $1; }
 
 addit:      addit '+' term      { $$ = new cBinaryExprNode($1, '+', $3); }

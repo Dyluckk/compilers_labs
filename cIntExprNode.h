@@ -4,11 +4,11 @@
 //
 // Defines an AST node for an integer constant (literals).
 //
-// Inherits from cExprNode so that integer constants can be used anywhere 
+// Inherits from cExprNode so that integer constants can be used anywhere
 // expressions are used.
 //
-// Author: Phil Howard 
-// phil.howard@oit.edu
+// Author: Phil Howard
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 18, 2016
 //
@@ -37,7 +37,9 @@ class cIntExprNode : public cExprNode
             return sym->GetDecl();
         }
 
-        virtual string AttributesToString() 
+        int GetValue() { return m_value; }
+
+        virtual string AttributesToString()
         {
             return " value=\"" + std::to_string(m_value) + "\"";
         }

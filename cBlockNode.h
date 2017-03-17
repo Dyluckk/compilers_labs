@@ -8,7 +8,7 @@
 // cStmtNode
 //
 // Author: Phil Howard
-// phil.howard@oit.edu
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 18, 2016
 //

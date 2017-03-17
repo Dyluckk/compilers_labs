@@ -6,7 +6,7 @@
 // Individual levels of the symbol table use a std::unordered_map from the STL
 //
 // Author: Phil Howard 
-// phil.howard@oit.edu
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 18, 2016
 //

@@ -4,8 +4,8 @@
 //
 // Class for an operator (e.g. + - etc.)
 //
-// Author: Phil Howard 
-// phil.howard@oit.edu
+// Author: Phil Howard
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 18, 2016
 //
@@ -21,8 +21,8 @@ class cOpNode : public cAstNode
             m_op = op;
         }
 
-        virtual string AttributesToString()   
-        { 
+        virtual string AttributesToString()
+        {
             string result(" value='");
 
             switch (m_op)
@@ -45,9 +45,9 @@ class cOpNode : public cAstNode
 
             return result;
         }
+        int GetOp() { return m_op; }
         virtual string NodeType()       { return "op"; }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
     protected:
         int m_op;      // the operand
 };
-

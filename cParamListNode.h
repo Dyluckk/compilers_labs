@@ -5,7 +5,7 @@
 // Defines AST node for actual params passed to a function
 //
 // Author: Phil Howard
-// phil.howard@oit.edu
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 18, 2016
 //
@@ -34,6 +34,7 @@ class cParamListNode : public cAstNode
             return static_cast<cExprNode*>(GetChild(index));
         }
 
+        int GetNumParams() { return this->NumChildren(); }
         virtual int GetSize() { return m_size; }
         virtual void SetSize(int size) { m_size = size; }
 

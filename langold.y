@@ -5,7 +5,7 @@
 // Parser definition file. bison uses this file to generate the parser.
 //
 // Author: Phil Howard 
-// phil.howard@oit.edu
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 18, 2015
 //

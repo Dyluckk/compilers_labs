@@ -4,8 +4,8 @@
 //
 // Defines AST node for a lang return statement
 //
-// Author: Phil Howard 
-// phil.howard@oit.edu
+// Author: Phil Howard
+// zachary.wentworth@oit.edu
 //
 // Date: Feb. 18, 2017
 //
@@ -22,7 +22,7 @@ class cReturnNode : public cStmtNode
         {
             AddChild(expr);
         }
-
+        cExprNode * GetExpr() { return static_cast<cExprNode *>(GetChild(0)); }
         virtual string NodeType() { return string("return"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 };

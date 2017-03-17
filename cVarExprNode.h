@@ -7,7 +7,7 @@
 // Inherits from cExprNode so variable refs can be used in expressions`
 //
 // Author: Phil Howard
-// phil.howard@oit.edu
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 18, 2016
 //
@@ -24,11 +24,6 @@ class cVarExprNode : public cExprNode
             : cExprNode()
         {
             AddChild(name);
-        }
-
-        cDeclNode* GetDecl()
-        {
-          return GetName()->GetDecl();
         }
 
         // called for the fields in struct refs
@@ -100,6 +95,35 @@ class cVarExprNode : public cExprNode
             return dynamic_cast<cExprNode*>(GetChild(index + 1)) != nullptr;
         }
 
+        void AddRowSize(int size)
+        {
+            m_row.push_back(size);//for the vector we have
+        }
+
+        int GetRowSize(int index)
+        {
+            return m_row[index];
+        }
+
+        cDeclNode * GetTypes(int size)//this function will get the decl type and wil go through all params
+        {
+            cDeclNode * decl = GetName()->GetDecl();
+            for(int i = 0; i < size; i++)//size is the ammount of params in the func
+            {
+                if(decl != nullptr)//dont access something that isnt being set
+                {
+                    decl = decl->GetBaseType()->GetName()->GetDecl();//else get the decl of the type of param
+                }
+                else
+                {
+                    return nullptr;
+                }
+            }
+
+            cDeclNode * basetype = decl->GetBaseType();//returns the base type of the decl
+            return basetype;
+        }
+
         cSymbol* GetElement(int index)
         {
              return (cSymbol*)GetChild(index + 1);
@@ -110,72 +134,61 @@ class cVarExprNode : public cExprNode
              return (cExprNode*)GetChild(index + 1);
         }
 
-        virtual int GetSize() { return m_size; }
-        virtual void SetSize(int size) { m_size = size; }
-        virtual int GetOffset() { return m_offset; }
-        virtual void SetOffset(int offset) { m_offset = offset; }
-
-        cDeclNode* GetDereferencedType(int index)
+        cDeclNode * GetDecl()
         {
-          cDeclNode *decl = GetName()->GetDecl();
-          cDeclNode *type = nullptr;
-
-          for (int i = 0; i < index; i++)
-          {
-            if (decl == nullptr)
-            {
-              return nullptr;
-            }
-            else
-            {
-              decl = decl->GetBaseType()->GetName()->GetDecl();
-            }
-
-          }
-
-          type = decl->GetBaseType();
-          return type;
+            return GetName()->GetDecl();
         }
 
-        void AddRowSize(int size)
+        int GetSize()
         {
-            m_rowSizes.push_back(size);
+            return m_size;
+        }
+
+        int GetOffset()
+        {
+            return m_offset;
+        }
+
+        void SetSize(int size)
+        {
+            m_size = size;
+        }
+
+        void SetOffset(int offset)
+        {
+            m_offset = offset;
         }
 
         virtual string AttributesToString()
         {
-          string rowSizes;
-
-          //check if rowsize
-          if (m_rowSizes.size() == 0)
-          {
-            if ((m_size == 0) && (m_offset == 0))
+            if(m_row.size() == 0)
             {
-              return "";
+                if(m_size == 0 && m_offset == 0)
+                {
+                    return "";
+                }
+                else
+                {
+                    return " size=\"" + std::to_string(m_size) + "\" offset=\"" + std::to_string(m_offset) + "\"";
+                }
             }
-            else
+            string rowsizes;
+            for(unsigned int i = 0; i < m_row.size(); i++)
             {
-              return " size=\"" + std::to_string(m_size) + "\" offset=\""
-                     + std::to_string(m_offset) + "\"";
+                rowsizes += std::to_string(m_row[i]);
+                rowsizes += " ";
             }
-          }
 
-          for (unsigned int i = 0; i < m_rowSizes.size(); i++)
-          {
-            rowSizes += std::to_string(m_rowSizes[i]);
-            rowSizes += " ";
-          }
+            rowsizes.pop_back();
 
-          return " size=\"" + std::to_string(m_size) + "\" offset=\""
-                 + std::to_string(m_offset) + "\" rowsizes=\"" + rowSizes + "\"";
+            return " size=\"" + std::to_string(m_size) + "\" offset=\"" + std::to_string(m_offset) + "\" rowsizes=\"" + rowsizes + "\"";
         }
 
         virtual string NodeType() { return string("varref"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 
-  private:
+    private:
         int m_size;
         int m_offset;
-        vector<int> m_rowSizes;
-
+        vector<int> m_row;
 };

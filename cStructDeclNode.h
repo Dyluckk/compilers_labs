@@ -7,7 +7,7 @@
 // Inherits from cDeclNode because this is a type of declaration
 //
 // Author: Phil Howard 
-// phil.howard@oit.edu
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 18, 2016
 //

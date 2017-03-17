@@ -5,7 +5,7 @@
 // Defines AST node for a function declaration
 //
 // Author: Phil Howard 
-// phil.howard@oit.edu
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 18, 2016
 //

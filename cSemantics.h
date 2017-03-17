@@ -1,11 +1,11 @@
 #pragma once
 //**************************************
-// cSemantic.h 
+// cSemantic.h
 //
 // Defines visitor class for semantic processing
 //
-// Author: Phil Howard 
-// phil.howard@oit.edu
+// Author: Phil Howard
+// zachary.wentworth@oit.edu
 //
 // Date: Feb. 20, 2017
 //
@@ -13,11 +13,11 @@
 #include "cVisitor.h"
 #include "cSymbolTable.h"
 
-void FatalError(const char *msg)
-{
-    std::cerr << msg << std::endl;
-    exit(1);
-}
+// void FatalError(const char *msg)
+// {
+//     std::cerr << msg << std::endl;
+//     exit(1);
+// }
 
 class cSemantics : public cVisitor
 {
@@ -44,7 +44,7 @@ class cSemantics : public cVisitor
     //void Visit(cAstNode *node)          { VisitAllChildren(node); }
 
     void Visit(cAssignNode *node)
-    { 
+    {
         cVarExprNode* lval = node->GetLVal();
         cExprNode*    expr = node->GetExpr();
 
@@ -57,17 +57,17 @@ class cSemantics : public cVisitor
 
         if (!lval->GetType()->IsCompatibleWith(expr->GetType()))
         {
-            SemanticError(node, "Cannot assign " + 
+            SemanticError(node, "Cannot assign " +
                     expr->GetType()->GetName()->GetName() +
                     " to " + lval->GetType()->GetName()->GetName());
         }
     }
 
-    void Visit(cBinaryExprNode *node)   
-    { 
-        VisitAllChildren(node); 
+    void Visit(cBinaryExprNode *node)
+    {
+        VisitAllChildren(node);
 
-        if (node->GetLeft()->HasError() || node->GetRight()->HasError()) 
+        if (node->GetLeft()->HasError() || node->GetRight()->HasError())
         {
             node->SetHasError();
         }
@@ -79,8 +79,8 @@ class cSemantics : public cVisitor
     //void Visit(cExprNode *node)         { VisitAllChildren(node); }
     //void Visit(cFloatExprNode *node)    { VisitAllChildren(node); }
     //void Visit(cFuncDeclNode *node)     { VisitAllChildren(node); }
-    void Visit(cFuncExprNode *node)     
-    { 
+    void Visit(cFuncExprNode *node)
+    {
         VisitAllChildren(node);
         if (node->HasError()) return;
 
@@ -154,19 +154,19 @@ class cSemantics : public cVisitor
     //void Visit(cStructDeclNode *node)   { VisitAllChildren(node); }
     //void Visit(cSymbol *node)           { VisitAllChildren(node); }
     //void Visit(cVarDeclNode *node)      { VisitAllChildren(node); }
-    void Visit(cVarExprNode *node)      
-    { 
+    void Visit(cVarExprNode *node)
+    {
         bool isStruct = false;
         bool isArray = false;
 
         // declared?
         if (node->GetName()->GetDecl() == nullptr)
         {
-            SemanticError(node, "Symbol " + node->GetName()->GetName() + 
+            SemanticError(node, "Symbol " + node->GetName()->GetName() +
                     " not defined ");
         }
 
-        VisitAllChildren(node); 
+        VisitAllChildren(node);
         if (node->HasError()) return;
 
         // check for valid indexing
@@ -177,7 +177,7 @@ class cSemantics : public cVisitor
                 isArray = true;
                 if (isStruct)
                 {
-                    SemanticError(node, 
+                    SemanticError(node,
                             "Mixed arrays and structs not supported");
                     return;
                 }
@@ -186,7 +186,7 @@ class cSemantics : public cVisitor
                 cDeclNode *itemDecl = node->GetName()->GetDecl()->GetType();
                 if (!itemDecl->GetType(ii)->IsArray())
                 {
-                    SemanticError(node, node->GetTextName() + 
+                    SemanticError(node, node->GetTextName() +
                             " is not an array");
                     return;
                 }
@@ -204,7 +204,7 @@ class cSemantics : public cVisitor
                 isStruct = true;
                 if (isArray)
                 {
-                    SemanticError(node, 
+                    SemanticError(node,
                             "Mixed arrays and structs not supported");
                     return;
                 }
@@ -216,4 +216,3 @@ class cSemantics : public cVisitor
   protected:
     int m_numErrors;
 };
-

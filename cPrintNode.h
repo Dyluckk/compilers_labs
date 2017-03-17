@@ -7,8 +7,8 @@
 // Inherits from cStmtNode so print statments can go in statement lists, and be
 // used anywhere a statement is legal.
 //
-// Author: Phil Howard 
-// phil.howard@oit.edu
+// Author: Phil Howard
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 18, 2016
 //
@@ -25,7 +25,7 @@ class cPrintNode : public cStmtNode
         {
             AddChild(expr);
         }
-
+        cExprNode * GetExpr() { return static_cast<cExprNode *>(GetChild(0)); }
         virtual string NodeType() { return string("print"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 };

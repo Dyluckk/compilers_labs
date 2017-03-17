@@ -5,7 +5,7 @@
 // Defines virtual base class for all declarations.
 //
 // Author: Phil Howard
-// phil.howard@oit.edu
+// zachary.wentworth@oit.edu
 //
 // Date: Nov. 28, 2015
 //

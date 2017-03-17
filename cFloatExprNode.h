@@ -6,7 +6,7 @@
 // Inherits from cExprNode so float constants can be used in any expression.
 //
 // Author: Phil Howard 
-// phil.howard@oit.edu
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 18, 2016
 //

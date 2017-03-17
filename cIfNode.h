@@ -7,8 +7,8 @@
 // Inherits from cStmtNode so that if statements can be included in lists of
 // statements
 //
-// Author: Phil Howard 
-// phil.howard@oit.edu
+// Author: Phil Howard
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 18, 2016
 //
@@ -30,6 +30,20 @@ class cIfNode : public cStmtNode
             AddChild(elseStmt);
         }
 
+        cExprNode * GetCond()
+        {
+            return static_cast<cExprNode *>(GetChild(0));
+        }
+
+        cStmtsNode * GetIf()
+        {
+            return static_cast<cStmtsNode *>(GetChild(1));
+        }
+
+        cStmtsNode * GetElse()
+        {
+            return static_cast<cStmtsNode *>(GetChild(2));
+        }
         virtual string NodeType() { return string("if"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 };

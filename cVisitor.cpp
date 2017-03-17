@@ -5,7 +5,7 @@
 // This has to be in a cpp to avoid curcular includes
 //
 // Author: Phil Howard
-// phil.howard@oit.edu
+// zachary.wentworth@oit.edu
 //
 // Date: Feb. 20, 2017
 //

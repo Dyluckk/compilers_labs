@@ -6,7 +6,7 @@
 // Later labs will add features to this class.
 //
 // Author: Phil Howard 
-// phil.howard@oit.edu
+// zachary.wentworth@oit.edu
 //
 // Date: Feb. 11, 2017
 //

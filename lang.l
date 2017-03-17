@@ -4,8 +4,8 @@
 //
 // scanner definition file. flex uses this file to create the scanner
 //
-// Author: Phil Howard 
-// phil.howard@oit.edu
+// Author: Phil Howard
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 22, 2016
 //
@@ -18,7 +18,7 @@
 
 // Macros that can be used to create debug output from the scanner
 // The first one does NOT create debug output, the second does.
-// Uncomment one or the other then use DO_RETURN(val) for all your return 
+// Uncomment one or the other then use DO_RETURN(val) for all your return
 // statements
 #define DO_RETURN(a) { return (a); }
 //#define DO_RETURN(a) { return Return(a); }
@@ -38,9 +38,9 @@ period          ['.']
 whitespace      '[\t\n\r ]'
 %%
 
-    // token definitions 
+    // token definitions
 [\t\n\t ]*                  ;   /* Ignore whitespace */
-[{}()\[\],;\.+\-*/%=]       { 
+[{}()\[\],;\.+\-*/%=]       {
                                 yylval.int_val = yytext[0];
                                 DO_RETURN(yytext[0]);
                             }
@@ -56,26 +56,27 @@ whitespace      '[\t\n\r ]'
 "struct"                    DO_RETURN(STRUCT);
 "return"                    DO_RETURN(RETURN);
 "array"                     DO_RETURN(ARRAY);
-[a-zA-Z_][a-zA-Z0-9_]*      { 
+[a-zA-Z_][a-zA-Z0-9_]*      {
                               yylval.symbol = g_SymbolTable.Find(yytext);
                               if (yylval.symbol == nullptr)
                               {
-                                  yylval.symbol = new cSymbol(yytext); 
+                                  yylval.symbol = new cSymbol(yytext);
                               }
-                              if (yylval.symbol->GetDecl() != nullptr && 
+                              if (yylval.symbol->GetDecl() != nullptr &&
                                   yylval.symbol->GetDecl()->IsType())
                                   { DO_RETURN(TYPE_ID); }
                               else
                                   { DO_RETURN(IDENTIFIER); }
                             }
 -?[0-9]+                      {
-                                yylval.int_val = atoi(yytext); 
-                                DO_RETURN(INT_VAL); 
+                                yylval.int_val = atoi(yytext);
+                                DO_RETURN(INT_VAL);
                             }
 -?[0-9]+\.[0-9]+              {
                                 yylval.float_val = atof(yytext);
                                 DO_RETURN(FLOAT_VAL);
                             }
+"!="                        { yylval.int_val = NOT_EQUALS; DO_RETURN(NOT_EQUALS); }                                                   
 "=="                        { yylval.int_val = EQUALS; DO_RETURN(EQUALS); }
 "&&"                        { yylval.int_val = AND; DO_RETURN(AND); }
 "||"                        { yylval.int_val = OR; DO_RETURN(OR); }
@@ -90,4 +91,3 @@ int Return(int val)
     printf("Scanned '%s': %d\n", yytext, val);
     return val;
 }
-

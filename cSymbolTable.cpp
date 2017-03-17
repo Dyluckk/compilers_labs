@@ -6,7 +6,7 @@
 // This function needs to be here to avoid circular includes
 //
 // Author: Phil Howard
-// phil.howard@oit.edu
+// zachary.wentworth@oit.edu
 //
 // Date: Feb. 10, 2017
 //

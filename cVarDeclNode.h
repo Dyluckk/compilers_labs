@@ -7,7 +7,7 @@
 // Inherits from cDeclNode so variables can be added to lists of decls
 //
 // Author: Phil Howard
-// phil.howard@oit.edu
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 18, 2016
 //

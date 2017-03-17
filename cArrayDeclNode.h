@@ -7,7 +7,7 @@
 // Inherits from cDeclNode because this is a type of declaration
 //
 // Author: Phil Howard
-// phil.howard@oit.edu
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 18, 2016
 //
@@ -80,6 +80,10 @@ class cArrayDeclNode : public cDeclNode
         virtual bool IsType()   { return true; }
         virtual bool IsArray()  { return true; }
 
+        virtual int GetCount()
+        {
+            return m_count;
+        }
         virtual cSymbol* GetName()
         {
             return static_cast<cSymbol*>(GetChild(1));
@@ -91,12 +95,6 @@ class cArrayDeclNode : public cDeclNode
         {
             return " count=\"" + std::to_string(m_count) + "\"";
         }
-
-        int GetCount()
-        {
-          return m_count;
-        }
-
     protected:
         int m_count;
 

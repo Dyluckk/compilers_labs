@@ -5,7 +5,7 @@
 // Defines global symbols used the the flex generated lexer 
 //
 // Author: Phil Howard 
-// phil.howard@oit.edu
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 18, 2016
 //

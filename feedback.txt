@@ -76,4 +76,3 @@ Lab1 Feedback
 -5 Late. Your git repository indicates you finished on time, so I'm not taking the full late penalty.
 
 Your git repository contains object files, etc. It should only contain source files.
-

@@ -7,7 +7,7 @@
 // Inherits from cExprNode so that functions can be used in expressions
 //
 // Author: Phil Howard 
-// phil.howard@oit.edu
+// zachary.wentworth@oit.edu
 //
 // Date: Jan. 18, 2016
 //
